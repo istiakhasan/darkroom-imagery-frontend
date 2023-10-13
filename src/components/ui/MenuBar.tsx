@@ -1,12 +1,13 @@
 import { Menu } from "antd";
 import Link from "next/link";
 const MenuBar = () => {
+
   return (
     <Menu
       theme="dark"
       mode="horizontal"
-      
-      defaultSelectedKeys={["2"]}
+      defaultSelectedKeys={["1"]}
+      expandIcon={false}
       items={[
         {
           key: 1,
@@ -14,7 +15,7 @@ const MenuBar = () => {
         },
         {
           key: 2,
-          label: "FAQ",
+          label: <Link href={"/faq"}>FAQ</Link>,
         },
         {
           key: 3,
@@ -24,6 +25,7 @@ const MenuBar = () => {
           key: 4,
           label: <Link href={"/blog"}>Blog</Link>,
         },
+        true ? { key: 5, label: <Link href={"/dashboard"}>Dashboard</Link> } : null,
       ]}
     />
   );

@@ -1,18 +1,19 @@
 const EventByCategoryCard = () => {
   return (
-    <div className="ag-courses_item">
-      <a href="#" className="ag-courses-item_link">
-        <div className="ag-courses-item_bg"></div>
-
-        <div className="ag-courses-item_title">
-          UI/Web&amp;Graph design for teenagers 11-17&#160;years old
+    <div className="card-deck ">
+      <div className="card mb-4 shadow_hover">
+        <div className="view overlay overflow-hidden">
+          <img
+            className="card-img-top"
+            src="https://mdbootstrap.com/img/Photos/Others/images/16.webp"
+            alt="Card image cap"
+          />
         </div>
 
-        <div className="ag-courses-item_date-box">
-          Start:
-          <span className="ag-courses-item_date">04.11.2022</span>
+        <div className="card-body">
+          <h4 className="card-title">Weding</h4>
         </div>
-      </a>
+      </div>
     </div>
   );
 };
