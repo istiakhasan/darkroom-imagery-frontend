@@ -10,31 +10,33 @@ import {
 } from "antd";
 import { UserOutlined,MenuOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const DashboardHeader = ({setCollapes}:{setCollapes:any}) => {
   const route=useRouter()
   const { Header } = Layout;
-  const items: MenuProps["items"] = [
+  const menuProfileIcon: MenuProps["items"] = [
     {
-      key: "1",
-      label: <Button onClick={()=>route.push('/profile')}>Profile</Button>,
+      key: "Profile",
+      label: <Link href={"/profile"}>Profile</Link>,
     },
     {
-      key: "0",
-      label: (
-        <Button type="text" danger>
-          Logout
-        </Button>
-      ),
-    }
-    
+      key: "Dashboard",
+      label: <Link href={"/dashboard"}>Dashboard</Link>,
+    },
+    {
+      key: "logout",
+      label: <Button className=" w-100" type="primary" danger>Logout</Button>,
+    },
   ];
   return (
-    <Header style={{ padding: 0, background: "#002140" }}>
+    <Header style={{ padding: 0, background: "white" }}>
       <Row className="px-5" justify={"space-between"}>
         <MenuOutlined onClick={()=>setCollapes(false)} style={{color:"white"}} />
         <Col>
          
-          <Dropdown  menu={{ items }}>
+          <Dropdown overlayStyle={{
+            width: "200px",
+          }}  menu={{ items:menuProfileIcon }}>
             <a>
               <Space wrap size={16}>
                 <Avatar size="large" icon={<UserOutlined />} />

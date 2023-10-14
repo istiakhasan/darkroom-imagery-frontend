@@ -20,6 +20,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         setCollapes(false);
       }
     });
+    window.addEventListener("load", () => {
+      if (window.innerWidth < 700) {
+        setCollapes(true);
+      } else {
+        setCollapes(false);
+      }
+    });
   }, []);
   return (
     <Layout style={{ minHeight: "100vh" }} hasSider>
