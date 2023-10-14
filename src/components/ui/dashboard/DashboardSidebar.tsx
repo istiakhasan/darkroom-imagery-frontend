@@ -43,7 +43,7 @@ const DashboardSidebar = () => {
     },
     {
       key: 5,
-      label: <Link href={`/admin/manage-booking`}>Manage FAQ</Link>,
+      label: <Link href={`/admin/manage-faq`}>Manage FAQ</Link>,
       icon:<UserOutlined />
     },
     {
