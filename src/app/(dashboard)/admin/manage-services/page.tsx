@@ -4,10 +4,10 @@ import DModal from "@/components/ui/DModal";
 import DTable from "@/components/ui/DTable";
 import { Button, Row } from "antd";
 import { useState } from "react";
-import CreateBlog from "./_create/CreateBlog";
+import CreateServices from "./_create/CreateServices";
 
 
-const ManageBlog = () => {
+const ManageServices = () => {
   const [open, setOpen] = useState(false);
 
   const showModal = () => {
@@ -42,8 +42,8 @@ const ManageBlog = () => {
       <DBreadCrumb
         items={[
           {
-            label: "Manage Services",
-            link: "/admin/manage-services",
+            label: "Manage Faq",
+            link: "/admin/manage-faq",
           },
         ]}
       />
@@ -64,10 +64,10 @@ const ManageBlog = () => {
         handleCancel={() => setOpen(false)}
         title="Create Services"
       >
-        <CreateBlog />
+        <CreateServices />
       </DModal>
     </div>
   );
 };
 
-export default ManageBlog;
+export default ManageServices;

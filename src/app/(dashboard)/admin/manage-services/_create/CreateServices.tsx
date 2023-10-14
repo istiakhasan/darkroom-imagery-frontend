@@ -1,11 +1,10 @@
 import DForm from "@/components/forms/DForm";
 import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
-import DImageUpload from "@/components/ui/DImageUpload";
 import { Button } from "antd";
 import React from "react";
 
-const CreateBlog = () => {
+const CreateServices = () => {
   const submitForm = (data: any) => {
     console.log(data);
   };
@@ -13,23 +12,17 @@ const CreateBlog = () => {
     <DForm submitHandler={submitForm}>
       <div className="mb-3">
         <DFormInput
-          name="title"
-          label="Title"
-          placeholder="Type blog title"
+          name="question"
+          label="Question"
+          placeholder="Type question"
         />
       </div>
       <div className="mb-3">
         <DFormTextArea
-          name="description"
-          label="Description"
+          name="answer"
+          label="Question"
           rows={6}
-          placeholder="Type description"
-        />
-      </div>
-      <div className="mb-3">
-        <DImageUpload
-          name="image"
-          
+          placeholder="Type question"
         />
       </div>
        <div className="mb-3 text-end">
@@ -39,4 +32,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default CreateServices;
