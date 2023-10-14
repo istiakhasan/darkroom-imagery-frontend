@@ -33,11 +33,11 @@ const DashboardSidebar = () => {
     },
      {
       key: 4,
-      label: <Link href={`/admin/manage-services`}>Manage Services</Link>,
+      label: <Link href={`/admin/manage-service`}>Manage Services</Link>,
       icon:<UserOutlined />
     },
     {
-      key: 14,
+      key: 4,
       label: <Link href={`/admin/manage-booking`}>Manage Booking</Link>,
       icon:<UserOutlined />
     },

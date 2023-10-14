@@ -13,7 +13,7 @@ const DashboardContent = ({ children }: { children: React.ReactNode }) => {
           style={{
             padding: 24,
             minHeight: 360,
-            background: "white",
+            // background: "white",
             marginTop:"30px"
           }}
         >
