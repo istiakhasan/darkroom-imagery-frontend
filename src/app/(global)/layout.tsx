@@ -20,7 +20,8 @@ const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
   ];
   return (
     <Layout className="layout">
-      <Header
+       <MenuBar />
+      {/* <Header
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -30,7 +31,7 @@ const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
           zIndex: "1000",
         }}
       >
-        <MenuBar />
+       
         <div>
            <Button
             onClick={() => route.push("/login")}
@@ -49,7 +50,7 @@ const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
 
           </Dropdown>
         </div>
-      </Header>
+      </Header> */}
       <Content style={{ padding: "0 50px", minHeight: "100vh" }}>
         <div className="site-layout-content my-4">{children}</div>
       </Content>

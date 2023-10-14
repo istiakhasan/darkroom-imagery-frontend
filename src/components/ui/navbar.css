@@ -1,0 +1,26 @@
+.navbar{
+  height: 60px;
+  background: #556EED;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  padding: 0 50px;
+}
+.navbar .logo{
+  font-size: 22px;
+  color: white;
+  
+}
+.navbar .menu_item a{
+  color: white;
+  padding: 5px 20px;
+  margin-right: 20px;
+  font-weight: 500;
+  border-radius: 4px;
+}
+.navbar .menu_item a:hover,.menu_item .active{
+  background: #4f64cf !important;
+  color: white !important;
+  transition: .4s ease-in-out;
+}
