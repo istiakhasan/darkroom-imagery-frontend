@@ -1,7 +1,10 @@
 "use client";
+import DBreadCrumb from "@/components/ui/DBreadCrumb";
 import DModal from "@/components/ui/DModal";
-import { Button } from "antd";
+import DTable from "@/components/ui/DTable";
+import { Button, Row } from "antd";
 import { useState } from "react";
+import CreateFaq from "./_create/CreateFaq";
 
 const ManageFaq = () => {
   const [open, setOpen] = useState(false);
@@ -11,19 +14,56 @@ const ManageFaq = () => {
   };
   const handleSubmit = () => {
     console.log("done");
+    
   };
+  const tableColumn = [
+    {
+      title: "sl",
+      dataIndex: "sl",
+    },
+    {
+      title: "name",
+      dataIndex: "name",
+    },
+    {
+      title: "age",
+      dataIndex: "age",
+    },
+    {
+      title: "action",
+      dataIndex: "action",
+    },
+  ];
+
+  const dataSlurce: any = [];
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
-        Create
-      </Button>
+      <DBreadCrumb
+        items={[
+          {
+            label: "Manage Faq",
+            link: "/admin/manage-faq",
+          },
+        ]}
+      />
+      <Row justify={"end"}>
+        <Button type="primary" onClick={showModal}>
+          Create
+        </Button>
+      </Row>
+
+      {/* Table start */}
+      <DTable dataSource={dataSlurce} columns={tableColumn} />
+
+      {/* Table end */}
 
       <DModal
-        setOk={handleSubmit}
+        // setOk={handleSubmit}
         open={open}
         handleCancel={() => setOpen(false)}
+        title="Create FAQ"
       >
-        <h1>Hi i am custom modal</h1>
+        <CreateFaq />
       </DModal>
     </div>
   );
