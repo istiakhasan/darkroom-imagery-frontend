@@ -3,14 +3,9 @@ import { Button, Col, Input, Row, message } from "antd";
 import loginImage from "../../assets/login.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import DForm from "@/components/forms/DForm";
-import DFormInput from "@/components/forms/DFormInput";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const route = useRouter();
-  const formSubmit=(data:any)=>{
-    console.log(data);
-  }
   return (
     <Row
       justify="center"
@@ -19,9 +14,11 @@ const LoginPage = () => {
         minHeight: "100vh",
       }}
     >
+      <Col sm={12} md={16} lg={10}>
+        <Image src={loginImage} width={500} alt="login image" />
+      </Col>
       <Col sm={12} md={8} lg={10}>
-       <DForm submitHandler={formSubmit}>
-         <div
+        <div
           className="pe-5"
           style={
             {
@@ -40,37 +37,39 @@ const LoginPage = () => {
           </h1>
           <div className="pe-5">
             <div className="mb-2">
-              <DFormInput name="number" label="Number" placeholder="Enter your number" />
+              <Input size="large" placeholder="Enter Your Number" />
             </div>
             <div className="mb-2">
-              <DFormInput type="password" name="password" label="Password" placeholder="Enter your password" />
+              <Input size="large" placeholder="Enter Your Password" />
+            </div>
+            <div className="mb-2">
+              <Input size="large" placeholder="Enter Your Password" />
+            </div>
+            <div className="mb-2">
+              <Input size="large" placeholder="Enter Your Password" />
             </div>
             <div className="mb-2">
               <Button type="primary" htmlType="submit">
-                Sign In
+                Sign Up
               </Button>
             </div>
             <div>
               <p>
-                <small>{`Don't Have a account ?`}</small>
+                <small>{`Have a account ?`}</small>
                 <span
                   style={{ cursor: "pointer" }}
-                  onClick={() => route.push("/register")}
+                  onClick={() => route.push("/login")}
                   className="text-primary"
                 >
-                  Sign Up
+                  Sign In
                 </span>
               </p>
             </div>
           </div>
         </div>
-       </DForm>
-      </Col>
-      <Col sm={12} md={16} lg={10}>
-        <Image src={loginImage} width={500} alt="login image" />
       </Col>
     </Row>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
