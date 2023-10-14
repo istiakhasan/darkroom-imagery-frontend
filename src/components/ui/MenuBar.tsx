@@ -80,6 +80,20 @@ const MenuBar = () => {
     true && { key: "Dashboard", label: "/dashboard" },
     true && { key: "Login", label: "/login" },
   ];
+  const menuProfileIcon: MenuProps["items"] = [
+    {
+      key: "Profile",
+      label: <Link href={"/profile"}>Profile</Link>,
+    },
+    {
+      key: "Dashboard",
+      label: <Link href={"/dashboard"}>Dashboard</Link>,
+    },
+    {
+      key: "logout",
+      label: <Button className="d-block ms-auto" type="primary" danger>Logout</Button>,
+    },
+  ];
   return (
     <div className="navbar">
       <div className="logo">
@@ -97,15 +111,14 @@ const MenuBar = () => {
           </>
         ))}
         <Dropdown
-  
-          menu={{ items} }
+          menu={{ items: menuProfileIcon }}
           placement="bottomRight"
           arrow={{ pointAtCenter: true }}
           overlayStyle={{
             width: "200px",
           }}
         >
-          <BarsOutlined style={{ fontSize: "30px", color: "white" }} />
+          <UserOutlined style={{ fontSize: "30px", color: "white" }} />
         </Dropdown>
       </div>
       <Dropdown
