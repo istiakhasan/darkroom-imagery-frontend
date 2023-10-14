@@ -9,10 +9,11 @@ import {
   CustomerServiceFilled,
   QuestionCircleOutlined,
   CommentOutlined,
-  MacCommandFilled
+  MacCommandFilled,
+  LeftCircleFilled,
 } from "@ant-design/icons";
 import { usePathname } from "next/navigation";
-const DashboardCustomSideBar = () => {
+const DashboardCustomSideBar = ({ setCollapes }: { setCollapes: any }) => {
   const path = usePathname();
   const items = [
     {
@@ -69,7 +70,20 @@ const DashboardCustomSideBar = () => {
   ];
   return (
     <div>
-      <div className="logo">Dark-I</div>
+      <div style={{ position: "relative" }} className="logo">
+        Dark-I
+        <LeftCircleFilled
+          onClick={() => setCollapes(true)}
+          style={{
+            fontSize: "20px",
+            fontWeight: "bold",
+            color: "#017eff",
+            position: "absolute",
+            right: "10px",
+            cursor: "pointer",
+          }}
+        />
+      </div>
       <div className="sidebar_link">
         {items.map((item, i) => (
           <Link

@@ -2,19 +2,18 @@ import { Layout } from "antd";
 import React from "react";
 import DashboardHeader from "./DashboardHeader";
 
-const DashboardContent = ({ children }: { children: React.ReactNode }) => {
+const DashboardContent = ({ children,setCollapes }: { children: React.ReactNode,setCollapes:any }) => {
   const { Content } = Layout;
   return (
     <Layout>
-      <DashboardHeader />
+      <DashboardHeader setCollapes={setCollapes} />
 
       <Content style={{ margin: "0 16px" }}>
         <div
           style={{
-            padding: 24,
             minHeight: 360,
             // background: "white",
-            marginTop:"30px"
+            marginTop:"10px"
           }}
         >
           {children}

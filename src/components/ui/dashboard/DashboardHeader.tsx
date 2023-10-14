@@ -8,9 +8,9 @@ import {
   Row,
   Space,
 } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined,MenuOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
-const DashboardHeader = () => {
+const DashboardHeader = ({setCollapes}:{setCollapes:any}) => {
   const route=useRouter()
   const { Header } = Layout;
   const items: MenuProps["items"] = [
@@ -30,8 +30,10 @@ const DashboardHeader = () => {
   ];
   return (
     <Header style={{ padding: 0, background: "#002140" }}>
-      <Row className="px-5" justify={"end"}>
+      <Row className="px-5" justify={"space-between"}>
+        <MenuOutlined onClick={()=>setCollapes(false)} style={{color:"white"}} />
         <Col>
+         
           <Dropdown  menu={{ items }}>
             <a>
               <Space wrap size={16}>
