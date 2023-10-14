@@ -1,0 +1,33 @@
+.custom_sidebar {
+  width: 200px !important;
+  background: white;
+  margin-right: 5px;
+  box-shadow: 0 9px 3px rgba(0, 0, 0, 0.1), 0 4px 7px rgba(0, 0, 0, 0.1);
+}
+
+.custom_sidebar .logo {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 30px;
+  color: #017eff;
+}
+.custom_sidebar .sidebar_link {
+}
+
+.custom_sidebar .sidebar_link a {
+  padding: 14px 24px;
+  color: #017eff;
+  font-size: 14px;
+  margin-bottom: 0;
+  display: block;
+  color: rgb(70, 68, 68);
+  
+}
+.custom_sidebar .sidebar_link a:hover,.sidebar_link .active {
+  background-color: #b2d7ff;
+  color: #017eff !important;
+  transition: .4s linear;
+}

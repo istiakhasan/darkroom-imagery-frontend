@@ -3,9 +3,12 @@ import React from "react";
 const Footer = () => {
   return (
     <div>
-      <footer className="text-center text-lg-start bg-light text-muted">
+      <footer
+        style={{ background: "#556EED" }}
+        className="text-center text-lg-start  text-muted text-white"
+      >
         <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-          <div className="me-5 d-none d-lg-block">
+          <div className="me-5 d-none text-white d-lg-block">
             <span>Get connected with us on social networks:</span>
           </div>
 
@@ -31,7 +34,7 @@ const Footer = () => {
           </div>
         </section>
 
-        <section className="">
+        <section className="text-white">
           <div className="container text-center text-md-start mt-5">
             <div className="row mt-3">
               <div className="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
