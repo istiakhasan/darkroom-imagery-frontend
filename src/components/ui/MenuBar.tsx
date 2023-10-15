@@ -13,6 +13,10 @@ const MenuBar = () => {
       label: <Link href={"/home"}>Home</Link>,
     },
     {
+      key: 1,
+      label: <Link href={"/services"}>Services</Link>,
+    },
+    {
       key: 2,
       label: <Link href={"/faq"}>FAQ</Link>,
     },
@@ -30,6 +34,10 @@ const MenuBar = () => {
     {
       key: "Home",
       label: "/home",
+    },
+    {
+      key: "Services",
+      label: "/services",
     },
     {
       key: "FAQ",
