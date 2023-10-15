@@ -21,36 +21,6 @@ const GlobalLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Layout className="layout">
        <MenuBar />
-      {/* <Header
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          position: "sticky",
-          top: 0,
-          zIndex: "1000",
-        }}
-      >
-       
-        <div>
-           <Button
-            onClick={() => route.push("/login")}
-            type="primary"
-            size="large"
-          >
-            Login
-          </Button>
-
-          <Dropdown menu={{ items }}>
-            <a>
-              <Space wrap size={16}>
-                <Avatar src="https://img.freepik.com/free-photo/portrait-handsome-man-with-dark-hairstyle-bristle-toothy-smile-dressed-white-sweatshirt-feels-very-glad-poses-indoor-pleased-european-guy-being-good-mood-smiles-positively-emotions-concept_273609-61405.jpg" size="large" icon={<UserOutlined />} />
-              </Space>
-            </a>
-
-          </Dropdown>
-        </div>
-      </Header> */}
       <Content style={{ padding: "0 50px", minHeight: "100vh" }}>
         <div className="site-layout-content my-4">{children}</div>
       </Content>

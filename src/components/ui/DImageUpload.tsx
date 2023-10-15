@@ -3,7 +3,7 @@ import { message, Upload } from "antd";
 import type { UploadChangeParam } from "antd/es/upload";
 import type { RcFile, UploadFile, UploadProps } from "antd/es/upload/interface";
 import Image from "next/image";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { useFormContext } from "react-hook-form";
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
@@ -49,6 +49,10 @@ const DImageUpload = ({ name }: ImageUploadProps) => {
       });
     }
   };
+
+  useEffect(()=>{
+   setImageUrl('')
+  },[])
 
   const uploadButton = (
     <div>

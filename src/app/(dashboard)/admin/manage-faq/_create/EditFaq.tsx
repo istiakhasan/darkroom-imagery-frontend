@@ -1,26 +1,38 @@
 import DForm from "@/components/forms/DForm";
 import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
-import { useAddFaqMutation } from "@/redux/api/faqApi";
+import { useAddFaqMutation, useUpdateFaqByIdMutation } from "@/redux/api/faqApi";
 import { Button, message } from "antd";
 import React from "react";
 
-const CreateFaq = ({setIsOpen}:{setIsOpen:any}) => {
-  const [createFaq] = useAddFaqMutation();
+const EditFaq = ({setIsOpen,rowDto}:{setIsOpen:any,rowDto:any }) => {
+  const [updateFaq] = useUpdateFaqByIdMutation();
   const submitForm = async (data: any) => {
-    message.loading("Creating.....");
+   const payload={
+    id:rowDto.id,
+    data
+
+   }
+    message.loading("Updating.....");
     try {
-      const res = await createFaq(data).unwrap();
+      const res = await updateFaq(payload).unwrap();
+      console.log(res,"res");
       if (res?.success) {
-        message.success("Created successfully");
+        message.success("Updated  successfully");
         setIsOpen(false)
       }
     } catch (error) {
       console.log(error);
     }
   };
+  const defaultValue={
+    question:rowDto.question,
+    answer:rowDto.answer,
+  }
+  console.log(rowDto,defaultValue,"default values");
+
   return (
-    <DForm submitHandler={submitForm}>
+    <DForm submitHandler={submitForm} defaultValues={defaultValue}>
       <div className="mb-3">
         <DFormInput
           name="question"
@@ -45,4 +57,4 @@ const CreateFaq = ({setIsOpen}:{setIsOpen:any}) => {
   );
 };
 
-export default CreateFaq;
+export default EditFaq;

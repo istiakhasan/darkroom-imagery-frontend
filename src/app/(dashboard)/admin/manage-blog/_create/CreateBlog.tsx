@@ -1,16 +1,36 @@
+"use client"
 import DForm from "@/components/forms/DForm";
 import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
-import { Button } from "antd";
+import { useAddBlogMutation } from "@/redux/api/blogApi";
+import { Button, message } from "antd";
 import React from "react";
 
-const CreateBlog = () => {
-  const submitForm = (data: any) => {
-    console.log(data);
+const CreateBlog = ({setOpen}:{setOpen:any}) => {
+  const [addBlogWithFormData]=useAddBlogMutation()
+  const handleStudentSubmit = async (values: any) => {
+    const obj = { ...values };
+    const file = obj["file"];
+    delete obj["file"];
+    const data = JSON.stringify(obj);
+    const formData = new FormData();
+    formData.append("file", file as Blob);
+    formData.append("data", data);
+    message.loading("Creating...");
+    try {
+      const res = await addBlogWithFormData(formData).unwrap();
+      console.log(res,"res");
+      if (res?.success) {
+        message.success("Blog created successfully!");
+        setOpen(false)
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
   };
   return (
-    <DForm submitHandler={submitForm}>
+    <DForm submitHandler={handleStudentSubmit}>
       <div className="mb-3">
         <DFormInput
           name="title"
@@ -28,8 +48,7 @@ const CreateBlog = () => {
       </div>
       <div className="mb-3">
         <DImageUpload
-          name="image"
-          
+          name="file"
         />
       </div>
        <div className="mb-3 text-end">

@@ -5,11 +5,25 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import DForm from "@/components/forms/DForm";
 import DFormInput from "@/components/forms/DFormInput";
+import { useLoginUserMutation } from "@/redux/api/authApi";
+import axios from "axios";
+import { storeUserInfo } from "@/services/auth.service";
 
 const LoginPage = () => {
-  const route = useRouter();
-  const formSubmit=(data:any)=>{
-    console.log(data);
+  const [userLogin]=useLoginUserMutation()
+  const router = useRouter();
+  const formSubmit=async(data:any)=>{
+    try {
+      const res = await userLogin({ ...data }).unwrap()
+      console.log(res,"res");
+      if (res?.token) {
+        router.push("/profile");
+        message.success("User logged in successfully!");
+      }
+      storeUserInfo({ accessToken: res?.token });
+    } catch (err: any) {
+      console.error(err.message);
+    }
   }
   return (
     <Row
@@ -40,7 +54,7 @@ const LoginPage = () => {
           </h1>
           <div className="pe-5">
             <div className="mb-2">
-              <DFormInput name="number" label="Number" placeholder="Enter your number" />
+              <DFormInput name="email"  label="Number" placeholder="Enter your number" />
             </div>
             <div className="mb-2">
               <DFormInput type="password" name="password" label="Password" placeholder="Enter your password" />
@@ -55,7 +69,7 @@ const LoginPage = () => {
                 <small>{`Don't Have a account ?`}</small>
                 <span
                   style={{ cursor: "pointer" }}
-                  onClick={() => route.push("/register")}
+                  onClick={() => router.push("/register")}
                   className="text-primary"
                 >
                   Sign Up

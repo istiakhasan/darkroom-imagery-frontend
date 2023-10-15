@@ -33,7 +33,8 @@ instance.interceptors.response.use(
       data: response?.data?.data,
       meta: response?.data?.meta,
     };
-    return responseObject;
+    // console.log(response,"response");
+    return response;
   },
   async function (error) {
     if (error?.response?.status === 403) {
