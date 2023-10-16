@@ -7,12 +7,14 @@ const DModal = ({
   handleCancel,
   setOk,
   title,
+  width
 }: {
   children: React.ReactNode;
   open: boolean;
   handleCancel: () => void;
   setOk?: () => void;
   title: string;
+  width?:string
 }) => {
   return (
     <>
@@ -20,6 +22,7 @@ const DModal = ({
         open={open}
         title={title}
         onCancel={handleCancel}
+        width={width?width:"500px"}
         footer={(_, { OkBtn, CancelBtn }) => (
           <>{setOk && <Button onClick={() => setOk()}>Submit</Button>}</>
         )}

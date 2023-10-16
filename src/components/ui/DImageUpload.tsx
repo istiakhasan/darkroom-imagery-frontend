@@ -50,9 +50,9 @@ const DImageUpload = ({ name }: ImageUploadProps) => {
     }
   };
 
-  useEffect(()=>{
-   setImageUrl('')
-  },[])
+  // useEffect(()=>{
+  //  setImageUrl('')
+  // },[])
 
   const uploadButton = (
     <div>

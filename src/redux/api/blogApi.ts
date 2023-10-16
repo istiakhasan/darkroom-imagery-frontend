@@ -13,27 +13,20 @@ export const blogApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.blog],
     }),
     getAllBlogByAuthorEmail: build.query({
-      query: () => ({
+      query: (arg) => ({
         url: "/blog",
+        method: "GET",
+        params:arg
+      }),
+      providesTags: [tagTypes.blog],
+    }),
+    allBlogForUsers: build.query({
+      query: () => ({
+        url: "/blog/get-all",
         method: "GET",
       }),
       providesTags: [tagTypes.blog],
     }),
-    // allFaqForUsers: build.query({
-    //   query: () => ({
-    //     url: "/faq/get-all",
-    //     method: "GET",
-    //   }),
-    //   providesTags: [tagTypes.faq],
-    // }),
-    // updateFaqById: build.mutation({
-    //   query: (data: any) => ({
-    //     url: `/faq/${data?.id}`,
-    //     method: "PATCH",
-    //     data: data?.data,
-    //   }),
-    //   invalidatesTags: [tagTypes.faq],
-    // }),
     deleteaqBlogById: build.mutation({
       query: (data: any) => ({
         url: `/blog/${data?.id}`,
@@ -46,6 +39,7 @@ export const blogApi = baseApi.injectEndpoints({
           url: `/blog/${data?.id}`,
           method: "PATCH",
           data: data?.data,
+          contentType: "multipart/form-data",
         }),
         invalidatesTags: [tagTypes.blog],
       }),
@@ -56,9 +50,6 @@ export const {
   useAddBlogMutation,
   useGetAllBlogByAuthorEmailQuery,
   useDeleteaqBlogByIdMutation,
-  useUpdateBlogByIdMutation
-//   useGetAllFaqQuery,
-//   useUpdateFaqByIdMutation,
-//   useDeleteaqByIdMutation,
-//   useAllFaqForUsersQuery,
+  useUpdateBlogByIdMutation,
+  useAllBlogForUsersQuery
 } = blogApi;

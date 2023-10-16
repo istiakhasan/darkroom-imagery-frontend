@@ -1,65 +1,80 @@
+"use client";
+import Loading from "@/app/loading";
+import { useAllBlogForUsersQuery } from "@/redux/api/blogApi";
 import { Col, Divider, Image, Row } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import dayjs from "dayjs";
 
 const BlogPage = () => {
+  const { data, isLoading } = useAllBlogForUsersQuery(undefined);
+  const [viewBlog, setViewBlog] = useState<any>({});
+  const blogs: {
+    image: string;
+    createdAt: string;
+    description: string;
+    title: string;
+    user: {
+      name: string;
+    };
+  }[] = data?.data;
+  if (isLoading) {
+    return <Loading />;
+  }
+  console.log(blogs, "blogs");
   return (
     <div className="my-3">
-      <Row gutter={50}>
-        <Col lg={14}>
+      <Row justify={"center"} gutter={50}>
+        <Col lg={10}>
           <h1>Inside</h1>
           <div>
             <Image
               height={400}
               width={"100%"}
               alt=""
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0OwA7e6jrtb-TIG_N5qaMXcvu6wlOq0dNyw&usqp=CAU"
+              src={viewBlog?.image || blogs[0].image}
             />
             <strong className="my-2">
-              Date:<small>20 december 2023</small>
+              Date:
+              <small>
+                {dayjs(viewBlog?.createdAt || blogs[0]?.createdAt).format(
+                  "MMM D, YYYY hh:mm A"
+                )}
+              </small>
             </strong>
 
-            <h1>Seriously,You need to start documenting your ux design</h1>
-            <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Voluptatum perspiciatis commodi rem aut, iusto alias, vero libero
-              fugiat veritatis neque animi ducimus atque necessitatibus.
-              Numquam, nisi error. Alias, ipsum explicabo ut accusantium
-              repellendus maxime recusandae dolor tenetur vero qui quibusdam vel
-              officiis minima aliquid autem aperiam est natus illum placeat
-              deserunt, ullam molestiae libero. Tempore magnam incidunt nam est
-              quam asperiores dicta fuga? Laudantium illum repellat excepturi
-              rerum iste alias at similique deserunt itaque repellendus magnam,
-              quidem corporis voluptatem ut quo, quisquam ad aliquam maiores
-              nobis consequuntur. Perspiciatis ea tempora magni saepe
-              dignissimos at est unde, inventore quam, molestiae mollitia!
-            </p>
+            <h1>{viewBlog?.title || blogs[0].title}</h1>
+            <p>{viewBlog?.description || blogs[0].description}</p>
           </div>
         </Col>
 
-        <Col style={{maxHeight:"100vh",overflow:"auto"}} lg={10}>
+        <Col style={{ maxHeight: "100vh", overflow: "auto" }} lg={8}>
           <h3 className="mt-5">Recent Blog</h3>
-          {Array.from(Array(20).keys()).map((item, i) => (
+          {blogs.map((item, i) => (
             <>
-              <div style={{cursor:"pointer"}} className="blog_card d-flex items-start gap-3 ">
+              <div
+                onClick={() => setViewBlog(item)}
+                style={{ cursor: "pointer" }}
+                className="blog_card d-flex items-start gap-3 "
+              >
                 <Image
+                  style={{ objectFit: "cover" }}
                   height={100}
                   width={200}
                   preview={false}
                   alt=""
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0OwA7e6jrtb-TIG_N5qaMXcvu6wlOq0dNyw&usqp=CAU"
+                  src={item?.image}
                 />
                 <div>
                   <p style={{ color: "#bd486d" }} className="mb-0">
                     Design system
                   </p>
-                  <h4>Learning to love the constrantain of design system</h4>
-                  <p className="text-secondary">Jhon smieth</p>
+                  <h4>{item?.title}</h4>
+                  <p className="text-secondary">{item?.user?.name}</p>
                 </div>
               </div>
               <Divider />
             </>
           ))}
-         
         </Col>
       </Row>
     </div>

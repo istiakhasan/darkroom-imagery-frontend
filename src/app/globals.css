@@ -161,5 +161,15 @@
   }
 }
 
+/* custom table */
+.custom_table{
+  overflow:auto;
+  background:white;
+}
+.custom_table table{
+     min-width: 700px;
+     table-layout: fixed !important;
+}
+
 
 

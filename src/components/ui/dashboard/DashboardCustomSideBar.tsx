@@ -39,7 +39,7 @@ const DashboardCustomSideBar = ({ setCollapes }: { setCollapes: any }) => {
     },
     {
       key: "Manage User",
-      label: `/admin/manage-user`,
+      label: `/admin/manage-users`,
       icon: <UserDeleteOutlined className="me-2" />,
     },
     {
@@ -64,7 +64,7 @@ const DashboardCustomSideBar = ({ setCollapes }: { setCollapes: any }) => {
     },
     {
       key: "Make Admin",
-      label: `/admin/make-admin`,
+      label: `/super-admin/make-admin`,
       icon: <MacCommandFilled className="me-2" />,
     },
   ];

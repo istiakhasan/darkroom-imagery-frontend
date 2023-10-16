@@ -2,28 +2,24 @@
 import DBreadCrumb from "@/components/ui/DBreadCrumb";
 import DModal from "@/components/ui/DModal";
 import DTable from "@/components/ui/DTable";
-import { Button, Image, Input, Modal, Row, Tooltip, message } from "antd";
-import { useState } from "react";
-import CreateBlog from "./_create/CreateBlog";
-import {
-  useDeleteaqBlogByIdMutation,
-  useGetAllBlogByAuthorEmailQuery,
-} from "@/redux/api/blogApi";
-import dayjs from "dayjs";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import EditBlog from "./_create/EditBlog";
+import { useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/api/authApi";
 import { useDebounced } from "@/redux/hooks";
-const ManageBlog = () => {
+import { Avatar, Button, Input, Modal, Row, message } from "antd";
+import { useState } from "react";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import CreateUser from "./_crate/page";
+import EditUser from "./_edit/page";
+const ManageServices = () => {
   const query: Record<string, any> = {};
+  const [deleteUser]=useDeleteUserMutation()
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
-  const [rowDto, setRowDto] = useState({});
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [deleteBlogHandler] = useDeleteaqBlogByIdMutation();
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [rowDto, setRowDto] = useState({});
+  const [openEditModal, setOpenEditModal] = useState(false);
   query["limit"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
@@ -36,22 +32,13 @@ const ManageBlog = () => {
   if (!!debouncedTerm) {
     query["searchTerm"] = debouncedTerm;
   }
-  const { data, isLoading } = useGetAllBlogByAuthorEmailQuery(
-    { ...query },
-    {
-      refetchOnMountOrArgChange: true,
-      refetchOnFocus: true,
-    }
-  );
-  const faqDAta = data?.data?.data;
-
-  const showModal = () => {
-    setOpen(true);
-  };
-  const handleDelte = async (id: string) => {
+  const { data, isLoading } = useGetAllUsersQuery({...query});
+  const usersData = data?.data?.data;
+//   delete user
+const handleDelte = async (id: string) => {
     message.loading("Deleting.....");
     try {
-      const res = await deleteBlogHandler({ id: id }).unwrap();
+      const res = await deleteUser({ id: id }).unwrap();
       if (res?.success) {
         message.success("Deleted  successfully");
       }
@@ -62,64 +49,51 @@ const ManageBlog = () => {
   const tableColumn = [
     {
       title: "sl",
-      //@ts-ignore
-      render: (text, record, index) => index + 1,
+      render: (data: any, text: any, i: number) => i + 1,
+    },
+    {
+      title: "name",
+      dataIndex: "name",
     },
     {
       title: "Image",
-      key: 1,
-      render: function (blogDto: any) {
-        console.log(blogDto, "blog dto");
-        return (
-          <Image
-            style={{ borderRadius: "50%" }}
-            width={20}
-            height={20}
-            src={blogDto?.image}
-            alt=""
-          />
-        );
-      },
-    },
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: 2,
-    },
-    {
-      title: "Description",
-      key: 12,
-      width: "400px",
-      render: function (data: any) {
-        return (
-          <Tooltip
-            placement="top"
-            title={data?.description?.length > 100 ? data?.description : ""}
-          >
-            {data?.description?.length > 100
-              ? `${data?.description?.slice(0, 100)}...`
-              : data?.description?.length}
-          </Tooltip>
-        );
-      },
-    },
-    {
-      title: "CreatedAt",
-      render: function (data: any) {
-        return data && dayjs(data?.createdAt).format("MMM D, YYYY hh:mm A");
-      },
-      key: 12,
-    },
-    {
-      title: "Action",
-      render: function (abc: any) {
+      render: (data: any) => {
         return (
           <>
+            <Avatar src={data?.profileImg} shape="square" size="small" />
+          </>
+        );
+      },
+    },
+    {
+      title: "Mobile",
+      dataIndex: "contactNo",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      title: "Present Adress",
+      dataIndex: "presentAddress",
+    },
+    {
+      title: "Permanent Adress",
+      dataIndex: "permanentAddress",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+    },
+    {
+      title: "action",
+      render:(abc:any)=>{
+        return <>
             <DeleteOutlined
               onClick={() => {
                 Modal.confirm({
                   title: "Confirm ",
-                  content: "Are you sure to delete this item?",
+                  content: "Are you sure to delete this user?",
                   onOk: () => handleDelte(abc?.id),
                   footer: (_, { OkBtn, CancelBtn }) => (
                     <>
@@ -140,9 +114,8 @@ const ManageBlog = () => {
               }}
               style={{ cursor: "pointer" }}
             />
-          </>
-        );
-      },
+        </>
+      }
     },
   ];
 
@@ -150,64 +123,66 @@ const ManageBlog = () => {
     setPage(page);
     setSize(pageSize);
   };
- 
-  
- 
+  const onTableChange = (pagination: any, filter: any, sorter: any) => {
+    const { order, field } = sorter;
+    // console.log(order, field);
+    setSortBy(field as string);
+    setSortOrder(order === "ascend" ? "asc" : "desc");
+  };
   return (
     <div>
       <DBreadCrumb
         items={[
           {
-            label: "Manage Services",
-            link: "/admin/manage-services",
+            label: "Manage Users",
+            link: "/admin/manage-users",
           },
         ]}
       />
+      <Row justify={"end"}></Row>
       <Row className="my-3" justify={"space-between"}>
-      <Input
-            className="d-block"
-            style={{ width: "200px" }}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="search"
-          />
-          <Button type="primary" onClick={showModal}>
-            Create
-          </Button>
-          
-        
+        <Input
+          className="d-block"
+          style={{ width: "200px" }}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="search"
+        />
+        <Button type="primary" onClick={() => setOpen(true)}>
+          Create
+        </Button>
       </Row>
 
-
+      {/* Table start */}
       <DTable
         loading={isLoading}
         columns={tableColumn}
-        dataSource={faqDAta}
+        dataSource={usersData}
         pageSize={size}
         totalPages={data?.meta?.total}
         showSizeChanger={true}
         onPaginationChange={onPaginationChange}
-        //  onTableChange={onTableChange}
+         onTableChange={onTableChange}
         showPagination={true}
       />
 
-
+      {/* Table end */}
 
       <DModal
         open={open}
         handleCancel={() => setOpen(false)}
-        title="Create Blog"
+        title="Create User"
       >
-        <CreateBlog setOpen={setOpen} />
+        <CreateUser  setOpen={setOpen}/>
       </DModal>
       <DModal
         open={openEditModal}
         handleCancel={() => setOpenEditModal(false)}
-        title="Edit Blog"
+        title="Edit User"
       >
-        <EditBlog rowDto={rowDto} setOpen={setOpenEditModal} />
+        <EditUser rowDto={rowDto} setOpen={setOpenEditModal} />
       </DModal>
     </div>
   );
 };
 
-export default ManageBlog;
+export default ManageServices;

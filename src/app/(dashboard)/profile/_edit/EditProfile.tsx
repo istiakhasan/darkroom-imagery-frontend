@@ -1,32 +1,102 @@
+"use client"
 import DForm from "@/components/forms/DForm";
 import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
-import { Button } from "antd";
+import DImageUpload from "@/components/ui/DImageUpload";
+import { useUpdateProfileMutation } from "@/redux/api/authApi";
+import { Button, Col, Row, message } from "antd";
 import React from "react";
 
-const EditProfile = () => {
-  const submitForm = (data: any) => {
-    console.log(data);
+const EditProfile = ({ profileInfo,setOpenProfileEditModal }: { profileInfo: any,setOpenProfileEditModal:any }) => {
+  const [updateProfile]=useUpdateProfileMutation()
+    const submitForm = async(values: any) => {
+    const obj = { ...values };
+    const file = obj["file"];
+    delete obj["file"];
+    const data = JSON.stringify(obj);
+    const formData = new FormData();
+    formData.append("file", file as Blob);
+    formData.append("data", data);
+    const payload = {
+      data: formData,
+    };
+    try {
+      const res =await  updateProfile(payload).unwrap();
+      console.log(res, "res");
+      if (res?.success) {
+        message.success("Blog Updated successfully!");
+        setOpenProfileEditModal(false);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
   };
+  const defaultValues={
+    name:profileInfo?.name,
+    email:profileInfo?.email,
+    presentAddress:profileInfo?.presentAddress,
+    permanentAddress:profileInfo?.permanentAddress,
+    contactNo:profileInfo?.contactNo,
+    bioData:profileInfo?.bioData,
+    about:profileInfo?.about,
+    file:''
+  }
   return (
-    <DForm submitHandler={submitForm}>
-      <div className="mb-3">
-        <DFormInput
-          name="question"
-          label="Question"
-          placeholder="Type question"
-        />
-      </div>
-      <div className="mb-3">
-        <DFormTextArea
-          name="answer"
-          label="Question"
-          rows={6}
-          placeholder="Type question"
-        />
-      </div>
-       <div className="mb-3 text-end">
-        <Button htmlType="submit" type="primary">Create</Button>
+    <DForm submitHandler={submitForm} defaultValues={defaultValues}>
+      <Row gutter={10}>
+        <Col lg={12} className="mb-3">
+          <DFormInput name="name" label="Name" placeholder="Name" />
+        </Col>
+        <Col lg={12} className="mb-3">
+          <DFormInput name="email" label="Email" placeholder="Email" />
+        </Col>
+        <Col lg={12} className="mb-3">
+          <DFormInput
+            name="presentAddress"
+            label="Present Address"
+            placeholder="Present Address"
+          />
+        </Col>
+        <Col lg={12} className="mb-3">
+          <DFormInput
+            name="permanentAddress"
+            label="Permanent Address"
+            placeholder="Permanent Address"
+          />
+        </Col>
+        <Col lg={12} className="mb-3">
+          <DFormInput
+            name="contactNo"
+            label="Contact No"
+            placeholder="Contact No"
+          />
+        </Col>
+        <Col offset={12}></Col>
+        <Col lg={12} className="mb-3">
+          <DFormTextArea
+            name="bioData"
+            label="Bio Data"
+            rows={3}
+            placeholder="Bio Data"
+          />
+        </Col>
+        <Col lg={12} className="mb-3">
+          <DFormTextArea
+            name="about"
+            label="About"
+            rows={3}
+            placeholder="About"
+          />
+        </Col>
+        <Col>
+        <DImageUpload name="file" />
+        </Col>
+      </Row>
+
+      <div className="mb-3 text-end">
+        <Button htmlType="submit" type="primary">
+          Create
+        </Button>
       </div>
     </DForm>
   );

@@ -37,6 +37,7 @@ const DTable = ({
 
   return (
     <Table
+      className="custom_table"
       loading={loading}
       columns={columns}
       dataSource={dataSource}

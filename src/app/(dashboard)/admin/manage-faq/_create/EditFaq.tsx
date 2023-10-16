@@ -29,7 +29,7 @@ const EditFaq = ({setIsOpen,rowDto}:{setIsOpen:any,rowDto:any }) => {
     question:rowDto.question,
     answer:rowDto.answer,
   }
-  console.log(rowDto,defaultValue,"default values");
+  
 
   return (
     <DForm submitHandler={submitForm} defaultValues={defaultValue}>

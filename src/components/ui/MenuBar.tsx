@@ -4,9 +4,16 @@ import React from "react";
 import "./navbar.css";
 import { Button, Dropdown, MenuProps } from "antd";
 import { BarsOutlined, UserOutlined } from "@ant-design/icons";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { removeUserInfo } from "@/services/auth.service";
+import { authKey } from "@/constants/storageKey";
 const MenuBar = () => {
+  const router=useRouter()
   const location = usePathname();
+  const logOut = () => {
+    removeUserInfo(authKey);
+    router.push("/home");
+  };
   const items: MenuProps["items"] = [
     {
       key: 1,
@@ -65,7 +72,7 @@ const MenuBar = () => {
     },
     {
       key: "logout",
-      label: <Button className=" w-100" type="primary" danger>Logout</Button>,
+      label: <Button onClick={()=>logOut()} className=" w-100" type="primary" danger>Logout</Button>,
     },
   ];
   return (
