@@ -31,7 +31,7 @@ const DashboardHeader = ({setCollapes}:{setCollapes:any}) => {
   return (
     <Header style={{ padding: 0, background: "white" }}>
       <Row className="px-5" justify={"space-between"}>
-        <MenuOutlined onClick={()=>setCollapes(false)} style={{color:"black"}} />
+        <MenuOutlined className="d-lg-none" onClick={()=>setCollapes(false)} style={{color:"black"}} />
         <Col>
          
           <Dropdown overlayStyle={{

@@ -13,6 +13,7 @@ import {
   LeftCircleFilled,
 } from "@ant-design/icons";
 import { usePathname } from "next/navigation";
+import { getMenuLink } from "@/constants/sidebarMenuLink";
 const DashboardCustomSideBar = ({ setCollapes }: { setCollapes: any }) => {
   const path = usePathname();
   const items = [
@@ -68,6 +69,8 @@ const DashboardCustomSideBar = ({ setCollapes }: { setCollapes: any }) => {
       icon: <MacCommandFilled className="me-2" />,
     },
   ];
+
+ 
   return (
     <div>
       <div style={{ position: "relative" }} className="logo">
@@ -85,7 +88,7 @@ const DashboardCustomSideBar = ({ setCollapes }: { setCollapes: any }) => {
         />
       </div>
       <div className="sidebar_link">
-        {items.map((item, i) => (
+        {getMenuLink('admin')?.map((item, i) => (
           <Link
             key={i}
             className={path === item?.label ? "active" : ""}

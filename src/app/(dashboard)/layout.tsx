@@ -8,7 +8,8 @@ import "./style.css";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { isLoggedIn } from "@/services/auth.service";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import withAuth from "@/components/withAuth";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [collapes, setCollapes] = useState(false);
@@ -37,18 +38,19 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
 
   useEffect(() => {
-    if (!userLoggedIn) {
-      router.push("/login");
+    // if (!userLoggedIn) {
+    if (false) {
+      redirect("/login");
     }
     setIsLoading(true);
   }, [router, isLoading]);
-
   if (!isLoading) {
+    console.log(isLoading,"is loading")
     return <Loading />
   }
+  
   return (
     <Layout style={{ minHeight: "100vh" }} hasSider>
-      {/* <DashboardSidebar /> */}
       <div  className={`custom_sidebar ${collapes ? "close" : "open"}`}>
         <div style={{ width: "220px" }}>
           <DashboardCustomSideBar setCollapes={setCollapes} />
@@ -60,3 +62,4 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default DashboardLayout;
+// export default withAuth(DashboardLayout) ;
