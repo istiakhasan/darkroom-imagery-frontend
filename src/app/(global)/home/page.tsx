@@ -6,6 +6,7 @@ import AvailableServices from "@/components/ui/home/AvailableServices";
 import EventByCategorySection from "@/components/ui/home/EventByCategorySection";
 import 'swiper/css';
 import ReviewSection from "@/components/ui/home/ReviewSection";
+import LatestNewsSection from "@/components/ui/home/LatestNewsSection";
 
 
 const HomePage = () => {
@@ -16,6 +17,7 @@ const HomePage = () => {
       <UpcommingServices />
       <EventByCategorySection />
       <ReviewSection />
+      <LatestNewsSection />
     </div>
   );
 };
