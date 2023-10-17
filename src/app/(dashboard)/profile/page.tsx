@@ -25,7 +25,7 @@ const Profile = () => {
               profileInfo?.profileImg
             }
           />
-          <h5 className="text-center mb-0">Sirin Chopra</h5>
+          <h5 className="text-center mb-0">{profileInfo?.name}</h5>
           <strong className="text-center text-secondary d-block">
             <small>{profileInfo?.role}</small>
           </strong>

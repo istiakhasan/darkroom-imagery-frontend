@@ -53,6 +53,11 @@ export const getMenuLink = (role: string) => {
       icon: <UserDeleteOutlined className="me-2" />,
     },
     {
+      key: "Category",
+      label: `/admin/manage-category`,
+      icon: <DashboardFilled className="me-2" />,
+    },
+    {
       key: "Manage Service",
       label: `/admin/manage-services`,
       icon: <CustomerServiceFilled className="me-2" />,

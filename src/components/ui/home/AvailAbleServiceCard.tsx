@@ -7,30 +7,34 @@ import {
 import { Avatar, Card, Image } from "antd";
 
 const { Meta } = Card;
-const AvailAbleServiceCard = () => {
+const AvailAbleServiceCard = ({item}:{item:any}) => {
   return (
     <Card
-      style={{ marginBottom: "20px" }}
+      style={{ marginBottom: "20px",height:"100%" }}
       cover={
         <Image
+          height={150}
+          style={{objectFit:"cover"}}
           preview={true}
           alt="example"
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+          src={item?.service_img}
         />
       }
-      actions={[
-        <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
-        <EllipsisOutlined key="ellipsis" />,
-      ]}
+      // actions={[
+      //   <SettingOutlined key="setting" />,
+      //   <EditOutlined key="edit" />,
+      //   <EllipsisOutlined key="ellipsis" />,
+      // ]}
     >
       <Meta
         avatar={
           <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
         }
-        title="Card title"
-        description="This is the description"
+        title={item?.serviceName}
+        description={item?.price}
       />
+      <p>{item?.service_desc?.length>50?`${item?.service_desc?.slice(0,50)}...`:item?.service_desc}</p>
+      <p>{item?.status}</p>
     </Card>
   );
 };

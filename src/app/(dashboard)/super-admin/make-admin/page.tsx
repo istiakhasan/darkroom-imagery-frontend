@@ -2,27 +2,33 @@
 import DBreadCrumb from "@/components/ui/DBreadCrumb";
 import DModal from "@/components/ui/DModal";
 import DTable from "@/components/ui/DTable";
-import { useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/api/authApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+  useUpdateUserMutation,
+} from "@/redux/api/authApi";
 import { useDebounced } from "@/redux/hooks";
-import { Avatar, Button, Input, Modal, Row, message } from "antd";
+import { Avatar, Button, Col, Input, Modal, Row, Select, message } from "antd";
 import { useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 const MakeAdmin = () => {
   const query: Record<string, any> = {};
-  const [deleteUser]=useDeleteUserMutation()
+  const [deleteUser] = useDeleteUserMutation();
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filterOpton, setFilterOption] = useState<string>("");
   const [rowDto, setRowDto] = useState({});
   const [openEditModal, setOpenEditModal] = useState(false);
   query["limit"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
+  query["role"] = filterOpton || "user";
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
     delay: 600,
@@ -31,10 +37,54 @@ const MakeAdmin = () => {
   if (!!debouncedTerm) {
     query["searchTerm"] = debouncedTerm;
   }
-  const { data, isLoading } = useGetAllUsersQuery({...query});
+  console.log(query, "query");
+  const { data, isLoading } = useGetAllUsersQuery({ ...query });
   const usersData = data?.data?.data;
-//   delete user
-const handleDelte = async (id: string) => {
+  // make admin
+  const [updateUserHandle] = useUpdateUserMutation();
+  const makeAdminHandle = async (values: any) => {
+    const formData = new FormData();
+    const role = { role: "admin" };
+    formData.append("data", JSON.stringify(role));
+    message.loading("Creating...");
+    let payload = {
+      data: formData,
+      id: values?.id,
+    };
+    try {
+      const res = await updateUserHandle(payload).unwrap();
+      console.log(res, "res");
+      if (res?.success) {
+        message.success("Make Admin  successfully!");
+        setOpen(false);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+  const removeAdminHanler = async (values: any) => {
+    const formData = new FormData();
+    const role = { role: "user" };
+    formData.append("data", JSON.stringify(role));
+    message.loading("Creating...");
+    let payload = {
+      data: formData,
+      id: values?.id,
+    };
+    try {
+      const res = await updateUserHandle(payload).unwrap();
+      console.log(res, "res");
+      if (res?.success) {
+        message.success("Remove form Admin  successfully!");
+        setOpen(false);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
+
+  //   delete user
+  const handleDelte = async (id: string) => {
     message.loading("Deleting.....");
     try {
       const res = await deleteUser({ id: id }).unwrap();
@@ -85,9 +135,57 @@ const handleDelte = async (id: string) => {
       dataIndex: "role",
     },
     {
+      title: "Manage Admin",
+      render: (data: any) => {
+        return (
+          <>
+            {data?.role === "user" && (
+              <Button
+                onClick={() => {
+                  Modal.confirm({
+                    title: "Confirm ",
+                    content: "Are you sure  user?",
+                    onOk: () => makeAdminHandle(data),
+                    footer: (_, { OkBtn, CancelBtn }) => (
+                      <>
+                        <CancelBtn />
+                        <OkBtn />
+                      </>
+                    ),
+                  });
+                }}
+                size="small"
+                type="primary"
+              >
+                Make admin
+              </Button>
+            )}{" "}
+            {data?.role === "admin" && (
+              <Button onClick={() => {
+                Modal.confirm({
+                  title: "Confirm ",
+                  content: "Are you sure  user?",
+                  onOk: () => removeAdminHanler(data),
+                  footer: (_, { OkBtn, CancelBtn }) => (
+                    <>
+                      <CancelBtn />
+                      <OkBtn />
+                    </>
+                  ),
+                });
+              }} size="small" type="primary" danger>
+                Remove admin
+              </Button>
+            )}
+          </>
+        );
+      },
+    },
+    {
       title: "action",
-      render:(abc:any)=>{
-        return <>
+      render: (abc: any) => {
+        return (
+          <>
             <DeleteOutlined
               onClick={() => {
                 Modal.confirm({
@@ -113,8 +211,9 @@ const handleDelte = async (id: string) => {
               }}
               style={{ cursor: "pointer" }}
             />
-        </>
-      }
+          </>
+        );
+      },
     },
   ];
 
@@ -139,16 +238,46 @@ const handleDelte = async (id: string) => {
         ]}
       />
       <Row justify={"end"}></Row>
-      <Row className="my-3" justify={"space-between"}>
-        <Input
-          className="d-block"
-          style={{ width: "200px" }}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="search"
-        />
-        <Button type="primary" onClick={() => setOpen(true)}>
+      <Row gutter={10} className="my-3" justify={"space-between"}>
+        <Col lg={10} className="d-flex">
+          <div className="me-2">
+            Search
+            <Input
+              className="d-block "
+              // style={{ width: "300px" }}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="search"
+            />
+          </div>
+          <div>
+            Filter by role
+            <Select
+              className="w-100"
+              placeholder="Select a person"
+              optionFilterProp="children"
+              onChange={(value) => {
+                setFilterOption(value);
+              }}
+              options={[
+                {
+                  value: "admin",
+                  label: "Admin",
+                },
+                {
+                  value: "user",
+                  label: "User",
+                },
+                {
+                  value: "super_admin",
+                  label: "Super Admin",
+                },
+              ]}
+            />
+          </div>
+        </Col>
+        {/* <Button type="primary" onClick={() => setOpen(true)}>
           Create
-        </Button>
+        </Button> */}
       </Row>
 
       {/* Table start */}
@@ -160,7 +289,7 @@ const handleDelte = async (id: string) => {
         totalPages={data?.meta?.total}
         showSizeChanger={true}
         onPaginationChange={onPaginationChange}
-         onTableChange={onTableChange}
+        onTableChange={onTableChange}
         showPagination={true}
       />
 

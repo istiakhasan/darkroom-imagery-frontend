@@ -11,9 +11,9 @@ import {
 import dayjs from "dayjs";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDebounced } from "@/redux/hooks";
-import CreateServices from "./_create/CreateServices";
-import { useGetAllServicesQuery } from "@/redux/api/serviceApi";
-const ManageBlog = () => {
+import { useGetAllCategoriesByAuthorEmailQuery } from "@/redux/api/categoryApi";
+import CreateCategories from "./_create/CreateCategories";
+const ManageCategory = () => {
   const query: Record<string, any> = {};
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState<number>(1);
@@ -36,7 +36,7 @@ const ManageBlog = () => {
   if (!!debouncedTerm) {
     query["searchTerm"] = debouncedTerm;
   }
-  const { data, isLoading } = useGetAllServicesQuery(
+  const { data, isLoading } = useGetAllCategoriesByAuthorEmailQuery(
     { ...query },
     {
       refetchOnMountOrArgChange: true,
@@ -75,7 +75,7 @@ const ManageBlog = () => {
             style={{ borderRadius: "50%" }}
             width={20}
             height={20}
-            src={blogDto?.service_img}
+            src={blogDto?.image}
             alt=""
           />
         );
@@ -83,47 +83,15 @@ const ManageBlog = () => {
     },
     {
       title: "Title",
-      dataIndex: "serviceName",
+      dataIndex: "name",
       key: 2,
-    },
-    {
-      title: "Description",
-      key: 12,
-      width: "400px",
-      render: function (data: any) {
-        return (
-          <Tooltip
-            placement="top"
-            title={data?.service_desc?.length > 100 ? data?.service_desc : ""}
-          >
-            {data?.service_desc?.length > 100
-              ? `${data?.service_desc?.slice(0, 100)}...`
-              : data?.service_desc?.length}
-          </Tooltip>
-        );
-      },
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: 212,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: 2122,
-    },
-    {
-      title: "availability",
-      dataIndex: "availability",
-      key: 1111,
     },
     {
       title: "CreatedAt",
       render: function (data: any) {
         return data && dayjs(data?.createdAt).format("MMM D, YYYY hh:mm A");
       },
-      key: 112,
+      key: 12,
     },
     {
       title: "Action",
@@ -210,19 +178,19 @@ const ManageBlog = () => {
       <DModal
         open={open}
         handleCancel={() => setOpen(false)}
-        title="Create Services"
+        title="Create Categories"
       >
-        <CreateServices setOpen={setOpen} />
+        <CreateCategories setOpen={setOpen} />
       </DModal>
-      {/* <DModal
+      <DModal
         open={openEditModal}
         handleCancel={() => setOpenEditModal(false)}
         title="Edit Blog"
       >
-        <EditBlog rowDto={rowDto} setOpen={setOpenEditModal} />
-      </DModal> */}
+        {/* <EditBlog rowDto={rowDto} setOpen={setOpenEditModal} /> */}
+      </DModal>
     </div>
   );
 };
 
-export default ManageBlog;
+export default ManageCategory;
