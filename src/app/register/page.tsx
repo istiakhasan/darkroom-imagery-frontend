@@ -7,12 +7,31 @@ import DFormInput from "@/components/forms/DFormInput";
 import DForm from "@/components/forms/DForm";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
+import { useCreateUserMutation } from "@/redux/api/authApi";
 
 const RegisterPage = () => {
+  const [CreateUserHandler]=useCreateUserMutation()
   const route = useRouter();
-  const submitForm=(data:any)=>{
-    console.log(data);
-  }
+  const handleStudentSubmit = async (values: any) => {
+    const obj = { ...values };
+    const file = obj["file"];
+    delete obj["file"];
+    const data = JSON.stringify(obj);
+    const formData = new FormData();
+    formData.append("file", file as Blob);
+    formData.append("data", data);
+    message.loading("Creating...");
+    try {
+      const res = await CreateUserHandler(formData).unwrap();
+      console.log(res,"res");
+      if (res?.success) {
+        message.success(res?.message);
+        route.push('/login')
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  };
   return (
     <Row
       justify="center"
@@ -25,7 +44,7 @@ const RegisterPage = () => {
         <Image src={loginImage} width={500} alt="login image" />
       </Col>
       <Col sm={12} md={8} lg={10}>
-      <DForm submitHandler={submitForm}>
+      <DForm submitHandler={handleStudentSubmit}>
           <div
           className="pe-5"
           style={
@@ -59,8 +78,20 @@ const RegisterPage = () => {
              <div className="mb-2">
               <DFormInput name="password" placeholder="Enter your password" size="large" label="Password" />
             </div>
+             <div className="mb-2">
+              <DFormTextArea name="presentAddress" placeholder="Enter your password" rows={3} label="Present Address" />
+            </div>
+             <div className="mb-2">
+              <DFormTextArea name="permanentAddress" placeholder="Enter your password" rows={3} label="Permanent Address" />
+            </div>
+             <div className="mb-2">
+              <DFormTextArea name="about" placeholder="About" rows={3} label="About" />
+            </div>
+             <div className="mb-2">
+              <DFormTextArea name="bioData" placeholder="About" rows={3} label="Bio" />
+            </div>
               <div className="mb-2">
-              <DImageUpload name="profileImg"/>
+              <DImageUpload name="file"/>
             </div>
            
            

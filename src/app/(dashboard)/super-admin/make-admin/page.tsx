@@ -11,6 +11,7 @@ import { useDebounced } from "@/redux/hooks";
 import { Avatar, Button, Col, Input, Modal, Row, Select, message } from "antd";
 import { useState } from "react";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import CreateAdminUser from "./_create/CreaetAdminUser";
 
 const MakeAdmin = () => {
   const query: Record<string, any> = {};
@@ -237,7 +238,6 @@ const MakeAdmin = () => {
           },
         ]}
       />
-      <Row justify={"end"}></Row>
       <Row gutter={10} className="my-3" justify={"space-between"}>
         <Col lg={10} className="d-flex">
           <div className="me-2">
@@ -275,9 +275,9 @@ const MakeAdmin = () => {
             />
           </div>
         </Col>
-        {/* <Button type="primary" onClick={() => setOpen(true)}>
-          Create
-        </Button> */}
+        <Button type="primary" onClick={() => setOpen(true)}>
+          Create Admin
+        </Button>
       </Row>
 
       {/* Table start */}
@@ -292,16 +292,17 @@ const MakeAdmin = () => {
         onTableChange={onTableChange}
         showPagination={true}
       />
-
-      {/* Table end */}
-
-      {/* <DModal
+      <DModal
         open={open}
         handleCancel={() => setOpen(false)}
         title="Create User"
       >
-        <CreateUser  setOpen={setOpen}/>
+        <CreateAdminUser  setOpen={setOpen}/>
       </DModal>
+
+      {/* Table end */}
+
+      {/* 
       <DModal
         open={openEditModal}
         handleCancel={() => setOpenEditModal(false)}

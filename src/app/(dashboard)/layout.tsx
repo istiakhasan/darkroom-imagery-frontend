@@ -38,14 +38,13 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
 
   useEffect(() => {
-    // if (!userLoggedIn) {
-    if (false) {
+    if (!userLoggedIn) {
+    // if (false) {
       redirect("/login");
     }
     setIsLoading(true);
   }, [router, isLoading]);
   if (!isLoading) {
-    console.log(isLoading,"is loading")
     return <Loading />
   }
   

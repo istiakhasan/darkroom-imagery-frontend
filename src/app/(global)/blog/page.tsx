@@ -20,7 +20,6 @@ const BlogPage = () => {
   if (isLoading) {
     return <Loading />;
   }
-  console.log(blogs, "blogs");
   return (
     <div className="my-3">
       <Row justify={"center"} gutter={50}>
@@ -31,7 +30,7 @@ const BlogPage = () => {
               height={400}
               width={"100%"}
               alt=""
-              src={viewBlog?.image || blogs[0].image}
+              src={viewBlog?.image || blogs[0]?.image}
             />
             <strong className="my-2">
               Date:
@@ -42,8 +41,8 @@ const BlogPage = () => {
               </small>
             </strong>
 
-            <h1>{viewBlog?.title || blogs[0].title}</h1>
-            <p>{viewBlog?.description || blogs[0].description}</p>
+            <h1>{viewBlog?.title || blogs[0]?.title}</h1>
+            <p>{viewBlog?.description || blogs[0]?.description}</p>
           </div>
         </Col>
 

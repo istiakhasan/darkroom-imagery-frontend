@@ -1,24 +1,25 @@
 import { Avatar, Card, Divider, Image, Rate } from "antd";
 import React from "react";
+import  dayjs  from 'dayjs';
 
-const ReviewCard = () => {
+const ReviewCard = ({item}:{item:any}) => {
   return (
     <Card hoverable>
       <div className="d-flex gap-3">
         <Avatar
           size={60}
-          src="https://mdbootstrap.com/img/Photos/Others/images/16.webp"
+          src={item?.user?.profileImg}
         />
         <div>
-          <p className="mb-0">Rahim Khan</p>
-          <p className="text-secondary"><small>Lorem ipsum dolor sit amet.</small></p>
+          <p className="mb-0">{item?.user?.name}</p>
+          <p className="text-secondary"><small>{item?.user?.email}</small></p>
         </div>
       </div>
       <Rate className="mt-2" value={5} />
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam repellendus dolor nobis sit dolorem perspiciatis aperiam officia necessitatibus? Rerum sit ipsa nulla quam facilis molestiae tenetur minima, consequuntur amet quibusdam.</p>
+      <p>{item?.review}</p>
 
       <Divider />
-      <p><small>20 december 2032</small></p>
+      <p><small>{dayjs(item?.createdAt).format('DD MMMM YYYY')}</small></p>
     </Card>
   );
 };

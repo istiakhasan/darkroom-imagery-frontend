@@ -44,6 +44,16 @@ export const getMenuLink = (role: string) => {
       label: `/user/booking-history`,
       icon: <HistoryOutlined className="me-2" />,
     },
+    {
+      key: "Feedback",
+      label: `/user/feedback`,
+      icon: <HistoryOutlined className="me-2" />,
+    },
+    {
+      key: "Manage Feedback",
+      label: `/admin/manage-feedback`,
+      icon: <HistoryOutlined className="me-2" />,
+    },
   ]
   const adminItems=[
     ...commonItems,

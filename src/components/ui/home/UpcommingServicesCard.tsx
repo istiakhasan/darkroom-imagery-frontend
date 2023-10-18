@@ -6,8 +6,8 @@ const UpcommingServicesCard = ({item}:{item:any}) => {
   console.log(item,"item");
   return (
     <div style={{marginBottom:"30px"}}>
-      <div style={{border:"none"}} className="card text-bg-dark border-none">
-        <img src={item?.service_img} className="card-img" alt="..." />
+      <div style={{border:"none",height:"300px"}} className="card text-bg-dark border-none">
+        <img style={{height:"100%"}}  src={item?.service_img} className="card-img" alt="..." />
         <div style={{
           background:"rgba(0,0,0,.2)"
         }} className="card-img-overlay">

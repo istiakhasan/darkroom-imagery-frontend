@@ -20,7 +20,6 @@ const CreateBlog = ({setOpen}:{setOpen:any}) => {
     message.loading("Creating...");
     try {
       const res = await addBlogWithFormData(formData).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Blog created successfully!");
         setOpen(false)

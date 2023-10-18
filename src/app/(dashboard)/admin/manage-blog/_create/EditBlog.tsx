@@ -26,7 +26,6 @@ const EditBlog = ({ setOpen, rowDto }: { setOpen: any; rowDto: any }) => {
     };
     try {
       const res = await updateBlogWithFormData(payload).unwrap();
-      console.log(res, "res");
       if (res?.success) {
         message.success("Blog Updated successfully!");
         setOpen(false);

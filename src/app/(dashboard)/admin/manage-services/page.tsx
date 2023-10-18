@@ -109,6 +109,11 @@ const ManageBlog = () => {
       key: 212,
     },
     {
+      title: "Location",
+      dataIndex: "location",
+      key: 2212,
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: 2122,

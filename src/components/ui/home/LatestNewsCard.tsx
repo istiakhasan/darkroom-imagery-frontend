@@ -1,19 +1,19 @@
 import { Col, Divider, Image, Row } from "antd";
 import React from "react";
+import  dayjs  from 'dayjs';
 
-const LatestNewsCard = () => {
+const LatestNewsCard = ({item}:{item:any}) => {
   return (
     <div>
-      <h5>Auguest</h5>
-      <h4>Lore, ipsumdfas dolor.</h4>
+      <h5>{dayjs(item?.createdAt).format('MMMM')}</h5>
+      <h4>{item?.title}</h4>
       {/* <Divider /> */}
       <Row>
         <Col lg={24}>
           <Row gutter={20} justify={"space-between"}>
             <Col lg={12}>
               <p className="text-secondary">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Recusandae quibusdam ipsa corrupti 
+                {item?.description}
               </p>
             </Col>
 
@@ -22,7 +22,7 @@ const LatestNewsCard = () => {
                 alt=""
                 height={200}
                 width={200}
-                src="https://mdbootstrap.com/img/Photos/Others/images/16.webp"
+                src={item?.image}
               />
             </Col>
           </Row>

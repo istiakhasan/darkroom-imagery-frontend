@@ -93,25 +93,15 @@ const CreateService = ({setOpen}:{setOpen:any}) => {
           placeholder="service price"
         />
       </div>
+      <div className="mb-3">
+        <DFormInput
+          name="location"
+          label="Location"
+          placeholder="service location"
+        />
+      </div>
       
-      {/* <div className="mb-3">
-        <DIDatePicker
-          name="date"
-          label="Description"
-        />
-      </div> */}
-      {/* <div className="mb-3">
-        <DTimePicker
-          name="startFrom"
-          label="From"
-        />
-      </div> */}
-      {/* <div className="mb-3">
-        <DTimePicker
-          name="startTo"
-          label="To"
-        />
-      </div> */}
+      
       <div className="mb-3">
         <DateRangePicker
           name="dateRange"

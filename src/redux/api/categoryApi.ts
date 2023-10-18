@@ -21,9 +21,10 @@ export const categoryApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.categories],
     }),
     getAllCategoriesLabel: build.query({
-      query: () => ({
+      query: (arg) => ({
         url: "/categories/all",
         method: "GET",
+        params:arg
       }),
       providesTags: [tagTypes.categories],
     }),

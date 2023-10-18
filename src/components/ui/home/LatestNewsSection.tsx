@@ -2,8 +2,12 @@
 import { Col, Divider, Row } from "antd";
 import React from "react";
 import LatestNewsCard from "./LatestNewsCard";
+import { useAllBlogForUsersQuery } from "@/redux/api/blogApi";
 
 const LatestNewsSection = () => {
+  const { data, isLoading } = useAllBlogForUsersQuery(undefined);
+  console.log(data?.data,"data");
+  const newData=data?.data
   return (
     <div>
       <h1 className="my-5 text-center underline">
@@ -11,17 +15,17 @@ const LatestNewsSection = () => {
       </h1>
       <hr style={{ height: "4px", background: "rgb(0,0,0)" }} />
       <Row gutter={30}>
-        {Array.from(Array(3).keys()).map((item, i) => (
+        {newData?.map((item:any, i:number) => (
           <>
             <Col className="mb-4" lg={8} key={i}>
-              <LatestNewsCard />
+              <LatestNewsCard item={item} />
             </Col>
           </>
         ))}
         <Col lg={24}>
           <hr style={{ height: "4px", background: "rgb(0,0,0)" }} />
         </Col>
-        {Array.from(Array(3).keys()).map((item, i) => (
+        {/* {Array.from(Array(3).keys()).map((item, i) => (
           <>
             <Col className="mb-4" lg={8} key={i}>
               <LatestNewsCard />
@@ -30,7 +34,7 @@ const LatestNewsSection = () => {
         ))}
          <Col lg={24}>
           <hr style={{ height: "4px", background: "rgb(0,0,0)" }} />
-        </Col>
+        </Col> */}
       </Row>
 
       <Divider />

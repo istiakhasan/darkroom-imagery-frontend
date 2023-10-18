@@ -1,14 +1,19 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import "./navbar.css";
-import { Button, Dropdown, MenuProps } from "antd";
-import { BarsOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Badge, Button, Dropdown, MenuProps } from "antd";
+import { BarsOutlined, UserOutlined,ShopOutlined } from "@ant-design/icons";
 import { usePathname, useRouter } from "next/navigation";
 import { removeUserInfo } from "@/services/auth.service";
 import { authKey } from "@/constants/storageKey";
+import { useAppSelector } from "@/redux/hooks";
+import DDrawer from "./DDrawer";
 const MenuBar = () => {
-  const router=useRouter()
+  const [open, setOpen] = useState(false);
+
+  const { cart } = useAppSelector((state) => state?.cart);
+  const router = useRouter();
   const location = usePathname();
   const logOut = () => {
     removeUserInfo(authKey);
@@ -72,7 +77,16 @@ const MenuBar = () => {
     },
     {
       key: "logout",
-      label: <Button onClick={()=>logOut()} className=" w-100" type="primary" danger>Logout</Button>,
+      label: (
+        <Button
+          onClick={() => logOut()}
+          className=" w-100"
+          type="primary"
+          danger
+        >
+          Logout
+        </Button>
+      ),
     },
   ];
   return (
@@ -91,6 +105,10 @@ const MenuBar = () => {
             </Link>
           </>
         ))}
+        <Badge className="me-4" count={cart?.length}>
+          <Avatar onClick={()=>setOpen(true)}  shape="square" icon={<ShopOutlined />} />
+        </Badge>
+        <DDrawer setOpen={setOpen} open={open} />
         <Dropdown
           menu={{ items: menuProfileIcon }}
           placement="bottomRight"
@@ -99,7 +117,7 @@ const MenuBar = () => {
             width: "200px",
           }}
         >
-          <UserOutlined style={{ fontSize: "30px", color: "white" }} />
+          <Avatar shape="square" icon={<UserOutlined />} />
         </Dropdown>
       </div>
       <Dropdown

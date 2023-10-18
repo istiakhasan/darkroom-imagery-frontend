@@ -1,74 +1,72 @@
 "use client";
+import DModal from "@/components/ui/DModal";
+import { useGetServiceByIdQuery } from "@/redux/api/serviceApi";
 import { Button, Card, Col, Divider, Image, Rate, Row, Space } from "antd";
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
+import CreateReview from "./_create/page";
+import  dayjs  from 'dayjs';
+import Loading from "@/app/loading";
 
 const ServiceDetailsPage = () => {
-  // const [value, setValue] = useState(3);
-  const desc = ["terrible", "bad", "normal", "good", "wonderful"];
+  const [openReviewModal,setOpenReviewModal]=useState(false)
+  const { id } = useParams();
+  const { data,isLoading } = useGetServiceByIdQuery({ id: id },{
+    refetchOnMountOrArgChange:true,
+    refetchOnFocus:true
+  });
+  const serviceData = data?.data;
+  const rating=serviceData?.ReviewAndRating?.reduce((a:number,b:any)=>a+b.rating,0)
+  const avgRating=rating/Number(serviceData?.ReviewAndRating?.length )
+  if(isLoading){
+    return <Loading />
+  }
+
   return (
     <div>
       <Row gutter={30} justify={"center"}>
         <Col sm={24} lg={8}>
-          <Card
-            style={{ width: "100%" }}
-            hoverable
-            // style={{ width: "340px",padding:"0px" }}
-          >
+          <Card style={{ width: "100%" }} hoverable>
             <Image
-              className="img-fluid"
+             
+              className="img-fluid w-100 mx-auto d-block"
               alt="example"
-              src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+              height={400}
+              src={serviceData?.service_img}
             />
           </Card>
         </Col>
 
         <Col lg={8}>
-          <h3 className="mb-4">Man Flex Experience Rn 11 Nin Running </h3>
-          <p className="mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium
-            officia nulla saepe harum delectus quibusdam ipsam consequatur quod
-            ab! Corrupti corporis quasi exercitationem, dolorem nostrum possimus
-            commodi cumque optio eligendi, eveniet, doloremque reprehenderit ab.
-            Repudiandae aut quisquam alias cumque eveniet.
-          </p>
+          <h3 className="mb-4">{serviceData?.serviceName} </h3>
+          <p className="mb-4">{serviceData?.service_desc}</p>
           <Card className="mb-4">
             <span>
-              <Rate value={5} /> <span className="ms-3">12 Reviews</span>
+              <Rate value={avgRating} /> <span className="ms-3">{rating} Reviews</span>
             </span>
           </Card>
-          <h4 className=" mb-4 px-4">$120</h4>
-          <Button
-            className="me-3"
-            type="primary"
-            style={{ background: "black" }}
-          >
-            Add To Cart
-          </Button>
-          <Button type="primary" style={{ background: "black" }}>
+          <h4 className=" mb-4 px-4">{serviceData?.price} tk</h4>
+          <Button  type="primary" style={{ background: "black" }}>
             Booked Service
           </Button>
         </Col>
         <Col className="mt-4" lg={16}>
           <Card>
+            <Button onClick={()=>setOpenReviewModal(true)} type="primary">Post Review</Button>
             <Divider orientation="left">Reviews And Ratings</Divider>
             <Row>
-              {Array.from(Array(16).keys()).map((item, i) => (
+              {serviceData?.ReviewAndRating?.map((item:any, i:number) => (
                 <>
                   <Col lg={8}>
-                    <Rate value={5} />
+                    <Rate value={item?.rating} />
                   </Col>
                   <Col lg={16}>
                     <p>
-                      <strong>John Abraham</strong>
-                      <small className="d-block">20 december 2021</small>
+                      <strong>{item?.user?.name}</strong>
+                      <small className="d-block">{dayjs(item?.createdAt).format('DD MMMM YYYY')}</small>
                     </p>
                     <p className="text-secondary">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Aut exercitationem corporis dolorem beatae nemo magni eum
-                      harum maiores dolore assumenda explicabo inventore
-                      sapiente molestiae enim, dolor dicta voluptates a vel
-                      voluptate laborum praesentium consequuntur. Provident
-                      explicabo nulla incidunt enim vero?
+                      {item?.review}
                     </p>
                   </Col>
                   <Col lg={24}>
@@ -79,6 +77,13 @@ const ServiceDetailsPage = () => {
             </Row>
           </Card>
         </Col>
+        <DModal
+        open={openReviewModal}
+        handleCancel={() => setOpenReviewModal(false)}
+        title="Post Review"
+      >
+        <CreateReview serviceId={id as string} setOpen={setOpenReviewModal} />
+      </DModal>
       </Row>
     </div>
   );

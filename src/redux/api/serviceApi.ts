@@ -28,13 +28,13 @@ export const serviceApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.services],
     }),
-    // allBlogForUsers: build.query({
-    //   query: () => ({
-    //     url: "/blog/get-all",
-    //     method: "GET",
-    //   }),
-    //   providesTags: [tagTypes.blog],
-    // }),
+    getServiceById: build.query({
+      query: (arg) => ({
+        url: `/service/${arg?.id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.services,tagTypes.review],
+    }),
     // deleteaqBlogById: build.mutation({
     //   query: (data: any) => ({
     //     url: `/blog/${data?.id}`,
@@ -57,7 +57,8 @@ export const serviceApi = baseApi.injectEndpoints({
 export const {
   useAddServicesMutation,
   useGetAllServicesQuery,
-  useGetAllServicesForUsersQuery
+  useGetAllServicesForUsersQuery,
+  useGetServiceByIdQuery
   //   useAddBlogMutation,
   //   useGetAllBlogByAuthorEmailQuery,
   //   useDeleteaqBlogByIdMutation,
