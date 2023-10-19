@@ -11,6 +11,7 @@ import { Button, Modal, Row, message } from "antd";
 import { useState } from "react";
 import { useDeleteaqByIdMutation, useGetAllFaqQuery } from "@/redux/api/faqApi";
 import { useGetAllFeedbackQuery } from "@/redux/api/feedbackApi";
+import ViewFeedback from "./_view/page";
 
 
 const ManageFeedback = () => {
@@ -22,7 +23,6 @@ const ManageFeedback = () => {
   const { data, isLoading } = useGetAllFeedbackQuery(undefined);
   const [deleteFaqHandler]=useDeleteaqByIdMutation()
   const faqDAta = data?.data;
-  console.log(data,"data");
 
   const showModal = () => {
     setOpen(true);
@@ -31,7 +31,6 @@ const ManageFeedback = () => {
     message.loading("Deleting.....");
     try {
       const res = await deleteFaqHandler({id:id}).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Deleted  successfully");
       }
@@ -60,29 +59,11 @@ const ManageFeedback = () => {
       render: function (abc: any) {
         return (
           <>
-            <DeleteOutlined
-              onClick={() => {
-                Modal.confirm({
-                  title: "Confirm ",
-                  content: "Are you sure to delete this item?",
-                  onOk: ()=>handleDelte(abc?.id),
-                  footer: (_, { OkBtn, CancelBtn }) => (
-                    <>
-                      <CancelBtn />
-                      <OkBtn   />
-                    </>
-                  ),
-                });
-              }}
-              style={{ cursor: "pointer" }}
-              className="text-danger me-2"
-            />
-
             <EyeFilled
-            //   onClick={() => {
-            //     setOpenEditModal(true);
-            //     setRowDto(abc);
-            //   }}
+              onClick={() => {
+                setOpenEditModal(true);
+                setRowDto(abc);
+              }}
               style={{ cursor: "pointer" }}
             />
           </>
@@ -133,13 +114,14 @@ const ManageFeedback = () => {
       >
         <CreateFaq setIsOpen={setOpen} />
       </DModal>
-      <DModal
+       */}
+       <DModal
         open={openEditModal}
         handleCancel={() => setOpenEditModal(false)}
-        title="Edit FAQ"
+        title="View feedback"
       >
-        <EditFaq rowDto={rowDto} setIsOpen={setOpenEditModal} />
-      </DModal> */}
+        <ViewFeedback rowDto={rowDto}  />
+      </DModal>
     </div>
   );
 };

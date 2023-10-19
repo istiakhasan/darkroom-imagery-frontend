@@ -32,7 +32,6 @@ const ManageFaq = () => {
     message.loading("Deleting.....");
     try {
       const res = await deleteFaqHandler({id:id}).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Deleted  successfully");
       }

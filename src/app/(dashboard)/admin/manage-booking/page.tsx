@@ -22,8 +22,9 @@ import dayjs from "dayjs";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import { useDebounced } from "@/redux/hooks";
-import { useGetAllBookedServiceByEmailQuery, useManageBookingServiceByIdMutation } from "@/redux/api/serviceApi";
-const BookingHistory = () => {
+import { useGetAllBookedServiceByEmailQuery } from "@/redux/api/serviceApi";
+import ManageUserBooking from "./_create/page";
+const ManageBooking = () => {
   const query: Record<string, any> = {};
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState<number>(1);
@@ -34,7 +35,6 @@ const BookingHistory = () => {
   const [openEditModal, setOpenEditModal] = useState(false);
   const [deleteBlogHandler] = useDeleteaqBlogByIdMutation();
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [cancelBooking]=useManageBookingServiceByIdMutation()
   query["limit"] = size;
   query["page"] = page;
   query["sortBy"] = sortBy;
@@ -52,27 +52,19 @@ const BookingHistory = () => {
     {
       refetchOnMountOrArgChange: true,
       refetchOnFocus: true,
-      refetchOnReconnect:true
     }
   );
   const faqDAta = data?.data?.data;
-  console.log(faqDAta, "faq data");
 
   const showModal = () => {
     setOpen(true);
   };
   const handleDelte = async (id: string) => {
-    const payload={
-      id,
-      data:{
-        isCancel:true
-      }
-    }
-    message.loading("Canceling.....");
+    message.loading("Deleting.....");
     try {
-      const res = await cancelBooking(payload).unwrap();
+      const res = await deleteBlogHandler({ id: id }).unwrap();
       if (res?.success) {
-        message.success("Service Cancel successfully");
+        message.success("Deleted  successfully");
       }
     } catch (error) {
       console.log(error);
@@ -102,9 +94,16 @@ const BookingHistory = () => {
       key: 2,
     },
     {
-      title: "Price",
+      title: "Service Name",
       render: function (data: any) {
-        return <span> {data?.service?.price}</span>;
+        return <span> {data?.service?.serviceName}</span>;
+      },
+      key: 2,
+    },
+    {
+      title: "Customer Name",
+      render: function (data: any) {
+        return <span> {data?.user?.name}</span>;
       },
       key: 2332,
     },
@@ -134,7 +133,7 @@ const BookingHistory = () => {
     {
       title: "Description",
       key: 12,
-      width: "400px",
+      width: "300px",
       render: function (data: any) {
         return (
           <Tooltip
@@ -164,7 +163,9 @@ const BookingHistory = () => {
       render: function (data: any) {
         return (
           <>
-          {data?.isCancel?<Badge count={"Order cancel "}   />:<> {data.status === "pending" && (
+            {data?.isCancel?<Badge count={"Order Cancel By user"}   />:<>
+            
+            {data.status === "pending" && (
               <Badge count={data?.status} showZero color="#faad14" />
             )}
             {data.status === "cofirm" && (
@@ -172,26 +173,24 @@ const BookingHistory = () => {
             )}
             {data.status === "reject" && (
               <Badge count={data?.status}   />
-            )}</>}
-            
+            )}
+             </>}
+           
           </>
         );
       },
       key: 12,
     },
     {
-      title: "Cancel Service",
+      title: "Action",
       render: function (abc: any) {
         return (
           <>
-            {abc?.isCancel?<Button type="primary" disabled>Cancel</Button>:<Button 
-            size="small" 
-            type="primary"
-            danger
+            {/* <DeleteOutlined
               onClick={() => {
                 Modal.confirm({
                   title: "Confirm ",
-                  content: "Are you sure to cancel order?",
+                  content: "Are you sure to delete this item?",
                   onOk: () => handleDelte(abc?.id),
                   footer: (_, { OkBtn, CancelBtn }) => (
                     <>
@@ -202,8 +201,20 @@ const BookingHistory = () => {
                 });
               }}
               style={{ cursor: "pointer" }}
-              className="me-2"
-            > Cancel</Button>}
+              className="text-danger me-2"
+            />
+
+            <EditOutlined
+              onClick={() => {
+                setOpenEditModal(true);
+                setRowDto(abc);
+              }}
+              style={{ cursor: "pointer" }}
+            /> */}
+            {abc?.isCancel ?<Button disabled type="primary">Manage Booking</Button>:<Button  onClick={() => {
+                setOpenEditModal(true);
+                setRowDto(abc);
+              }}  type="primary">Manage Booking</Button>}
           </>
         );
       },
@@ -225,16 +236,14 @@ const BookingHistory = () => {
           },
         ]}
       />
-      <Row className="my-3" justify={"space-between"}>
+      <Row className="my-3" justify={"end"}>
         <Input
           className="d-block"
           style={{ width: "200px" }}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="search"
         />
-        <Button type="primary" onClick={showModal}>
-          Create
-        </Button>
+
       </Row>
 
       <DTable
@@ -249,8 +258,24 @@ const BookingHistory = () => {
         showPagination={true}
       />
 
+      {/* <DModal
+        open={open}
+        handleCancel={() => setOpen(false)}
+        title="Create Blog"
+      >
+        <CreateBlog setOpen={setOpen} />
+      </DModal>
+     */}
+
+      <DModal
+        open={openEditModal}
+        handleCancel={() => setOpenEditModal(false)}
+        title="Manage Booking"
+      >
+        <ManageUserBooking rowDto={rowDto} setOpen={setOpenEditModal} />
+      </DModal> 
     </div>
   );
 };
 
-export default BookingHistory;
+export default ManageBooking;

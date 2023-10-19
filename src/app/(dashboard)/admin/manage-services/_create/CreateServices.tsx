@@ -21,9 +21,7 @@ const CreateService = ({setOpen}:{setOpen:any}) => {
   const [addServicesWithFormData]=useAddServicesMutation()
  
   const userInfo:any=getUserInfo()
-  console.log(userInfo,"user info");
   const handleStudentSubmit = async (values: any) => {
-    console.log(userInfo,"user");
     const obj = { ...values };
     const file = obj["file"];
     delete obj["file"];
@@ -38,7 +36,6 @@ const CreateService = ({setOpen}:{setOpen:any}) => {
     message.loading("Creating...");
     try {
       const res = await addServicesWithFormData(formData).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Services created successfully!");
         setOpen(false)

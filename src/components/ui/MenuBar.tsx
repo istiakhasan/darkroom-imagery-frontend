@@ -3,15 +3,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import "./navbar.css";
 import { Avatar, Badge, Button, Dropdown, MenuProps } from "antd";
-import { BarsOutlined, UserOutlined,ShopOutlined } from "@ant-design/icons";
+import { BarsOutlined, UserOutlined, ShopOutlined } from "@ant-design/icons";
 import { usePathname, useRouter } from "next/navigation";
-import { removeUserInfo } from "@/services/auth.service";
+import { isLoggedIn, removeUserInfo } from "@/services/auth.service";
 import { authKey } from "@/constants/storageKey";
 import { useAppSelector } from "@/redux/hooks";
 import DDrawer from "./DDrawer";
 const MenuBar = () => {
   const [open, setOpen] = useState(false);
-
+  const userLoggedIn = isLoggedIn();
   const { cart } = useAppSelector((state) => state?.cart);
   const router = useRouter();
   const location = usePathname();
@@ -63,9 +63,10 @@ const MenuBar = () => {
       key: "Blog",
       label: "/blog",
     },
-    true && { key: "Dashboard", label: "/dashboard" },
-    true && { key: "Login", label: "/login" },
+    ...(userLoggedIn ? [{ key: "Dashboard", label: "/profile" }] : []),
+    ...(!userLoggedIn ? [{ key: "Login", label: "/login" }] : []),
   ];
+
   const menuProfileIcon: MenuProps["items"] = [
     {
       key: "Profile",
@@ -106,19 +107,25 @@ const MenuBar = () => {
           </>
         ))}
         <Badge className="me-4" count={cart?.length}>
-          <Avatar onClick={()=>setOpen(true)}  shape="square" icon={<ShopOutlined />} />
+          <Avatar
+            onClick={() => setOpen(true)}
+            shape="square"
+            icon={<ShopOutlined />}
+          />
         </Badge>
         <DDrawer setOpen={setOpen} open={open} />
-        <Dropdown
-          menu={{ items: menuProfileIcon }}
-          placement="bottomRight"
-          arrow={{ pointAtCenter: true }}
-          overlayStyle={{
-            width: "200px",
-          }}
-        >
-          <Avatar shape="square" icon={<UserOutlined />} />
-        </Dropdown>
+        {userLoggedIn && (
+          <Dropdown
+            menu={{ items: menuProfileIcon }}
+            placement="bottomRight"
+            arrow={{ pointAtCenter: true }}
+            overlayStyle={{
+              width: "200px",
+            }}
+          >
+            <Avatar shape="square" icon={<UserOutlined />} />
+          </Dropdown>
+        )}
       </div>
       <Dropdown
         className="d-md-none"

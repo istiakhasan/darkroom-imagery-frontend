@@ -7,9 +7,12 @@ import React, { useState } from "react";
 import CreateReview from "./_create/page";
 import  dayjs  from 'dayjs';
 import Loading from "@/app/loading";
+import BookedServices from "./_create/BookedServices";
 
 const ServiceDetailsPage = () => {
   const [openReviewModal,setOpenReviewModal]=useState(false)
+  const [openBookedModal,setOpenBookedModal]=useState(false)
+
   const { id } = useParams();
   const { data,isLoading } = useGetServiceByIdQuery({ id: id },{
     refetchOnMountOrArgChange:true,
@@ -46,7 +49,7 @@ const ServiceDetailsPage = () => {
             </span>
           </Card>
           <h4 className=" mb-4 px-4">{serviceData?.price} tk</h4>
-          <Button  type="primary" style={{ background: "black" }}>
+          <Button onClick={()=>setOpenBookedModal(true)}  type="primary" style={{ background: "black" }}>
             Booked Service
           </Button>
         </Col>
@@ -83,6 +86,13 @@ const ServiceDetailsPage = () => {
         title="Post Review"
       >
         <CreateReview serviceId={id as string} setOpen={setOpenReviewModal} />
+      </DModal>
+        <DModal
+        open={openBookedModal}
+        handleCancel={() => setOpenBookedModal(false)}
+        title="Create Booked"
+      >
+        <BookedServices serviceId={id as string} setOpen={setOpenBookedModal} />
       </DModal>
       </Row>
     </div>

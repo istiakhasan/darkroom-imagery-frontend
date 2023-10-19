@@ -69,7 +69,6 @@ const ManageBlog = () => {
       title: "Image",
       key: 1,
       render: function (blogDto: any) {
-        console.log(blogDto, "blog dto");
         return (
           <Image
             style={{ borderRadius: "50%" }}

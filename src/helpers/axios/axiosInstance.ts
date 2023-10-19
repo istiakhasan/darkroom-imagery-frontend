@@ -37,17 +37,18 @@ instance.interceptors.response.use(
     return response;
   },
   async function (error) {
-    if (error?.response?.status === 403) {
-    } else {
-      const responseObject: IGenericErrorResponse = {
-        statusCode: error?.response?.data?.statusCode || 500,
-        message: error?.response?.data?.message || "Something went wrong",
-        errorMessages: error?.response?.data?.message,
-      };
-      return responseObject;
-    }
+    // if (error?.response?.status === 403) {
+    // } else {
+    //   const responseObject: IGenericErrorResponse = {
+    //     statusCode: error?.response?.data?.statusCode || 500,
+    //     message: error?.response?.data?.message || "Something went wrong",
+    //     errorMessages: error?.response?.data?.errorMessages
+    //     ,
+    //   };
+    //   return responseObject;
+    // }
 
-    // return Promise.reject(error);
+    return Promise.reject(error);
   }
 );
 

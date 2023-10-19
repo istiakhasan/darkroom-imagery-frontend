@@ -10,7 +10,6 @@ import React from "react";
 const CreateCategories = ({setOpen}:{setOpen:any}) => {
   const [createCategory]=useCreateCategoriesMutation()
   const userInfo:any=getUserInfo()
-  console.log(userInfo,"user");
   const handleStudentSubmit = async (values: any) => {
     const obj = { ...values };
     const file = obj["file"];
@@ -23,7 +22,6 @@ const CreateCategories = ({setOpen}:{setOpen:any}) => {
     message.loading("Creating...");
     try {
       const res = await createCategory(formData).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Blog created successfully!");
         setOpen(false)

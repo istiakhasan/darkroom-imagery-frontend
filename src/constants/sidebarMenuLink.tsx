@@ -48,12 +48,8 @@ export const getMenuLink = (role: string) => {
       key: "Feedback",
       label: `/user/feedback`,
       icon: <HistoryOutlined className="me-2" />,
-    },
-    {
-      key: "Manage Feedback",
-      label: `/admin/manage-feedback`,
-      icon: <HistoryOutlined className="me-2" />,
-    },
+    }
+    
   ]
   const adminItems=[
     ...commonItems,
@@ -86,6 +82,11 @@ export const getMenuLink = (role: string) => {
       key: "Manage Blog",
       label: `/admin/manage-blog`,
       icon: <CommentOutlined className="me-2" />,
+    },
+    {
+      key: "Manage Feedback",
+      label: `/admin/manage-feedback`,
+      icon: <HistoryOutlined className="me-2" />,
     },
   ]
 

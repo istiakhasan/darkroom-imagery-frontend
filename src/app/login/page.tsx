@@ -8,21 +8,27 @@ import DFormInput from "@/components/forms/DFormInput";
 import { useLoginUserMutation } from "@/redux/api/authApi";
 import axios from "axios";
 import { storeUserInfo } from "@/services/auth.service";
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import { loginSchema } from "@/schema/schema";
 const LoginPage = () => {
   const [userLogin]=useLoginUserMutation()
   const router = useRouter();
   const formSubmit=async(data:any)=>{
     try {
       const res = await userLogin({ ...data }).unwrap()
-      console.log(res,"res");
       if (res?.token) {
         router.push("/profile");
         message.success("User logged in successfully!");
       }
       storeUserInfo({ accessToken: res?.token });
     } catch (err: any) {
-      console.error(err.message);
+      console.log(err?.data?.errorMessages,"err")
+      if(err?.data?.errorMessages){
+        err?.data?.errorMessages?.map((item:any)=>{
+          console.log(item?.message,"item");
+          message.error(item?.message)
+        })
+      }
     }
   }
   return (
@@ -34,16 +40,9 @@ const LoginPage = () => {
       }}
     >
       <Col sm={12} md={8} lg={10}>
-       <DForm submitHandler={formSubmit}>
+       <DForm submitHandler={formSubmit} resolver={yupResolver(loginSchema)}>
          <div
           className="pe-5"
-          style={
-            {
-              // border:"1px solid black",
-              // padding:"30px",
-              // borderRadius:"4px"
-            }
-          }
         >
           <h1
             style={{

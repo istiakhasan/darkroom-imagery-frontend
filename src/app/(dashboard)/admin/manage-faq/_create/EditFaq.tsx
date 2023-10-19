@@ -16,7 +16,6 @@ const EditFaq = ({setIsOpen,rowDto}:{setIsOpen:any,rowDto:any }) => {
     message.loading("Updating.....");
     try {
       const res = await updateFaq(payload).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Updated  successfully");
         setIsOpen(false)

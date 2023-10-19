@@ -35,6 +35,30 @@ export const serviceApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.services,tagTypes.review],
     }),
+    bookedService: build.mutation({
+      query: (data) => ({
+        url: "/booked-service",
+        method: "POST",
+        data,
+      }),
+      invalidatesTags: [tagTypes.bookService],
+    }),
+    getAllBookedServiceByEmail: build.query({
+      query: (arg) => ({
+        url: "/booked-service",
+        method: "GET",
+        params: arg,
+      }),
+      providesTags: [tagTypes.bookService],
+    }),
+    manageBookingServiceById: build.mutation({
+      query: (arg) => ({
+        url: `/booked-service/${arg?.id}`,
+        method: "PATCH",
+        data:arg?.data
+      }),
+      invalidatesTags: [tagTypes.bookService],
+    }),
     // deleteaqBlogById: build.mutation({
     //   query: (data: any) => ({
     //     url: `/blog/${data?.id}`,
@@ -58,7 +82,10 @@ export const {
   useAddServicesMutation,
   useGetAllServicesQuery,
   useGetAllServicesForUsersQuery,
-  useGetServiceByIdQuery
+  useGetServiceByIdQuery,
+  useBookedServiceMutation,
+  useGetAllBookedServiceByEmailQuery,
+  useManageBookingServiceByIdMutation
   //   useAddBlogMutation,
   //   useGetAllBlogByAuthorEmailQuery,
   //   useDeleteaqBlogByIdMutation,
