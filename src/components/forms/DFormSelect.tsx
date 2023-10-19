@@ -1,5 +1,6 @@
 "use client";
 
+import { getErrorMessageByPropertyName } from "@/utils/schema-validator";
 import { Select } from "antd";
 import { useFormContext, Controller } from "react-hook-form";
 
@@ -29,7 +30,9 @@ const DFormSelect = ({
   defaultValue,
   handleChange,
 }: SelectFieldProps) => {
-  const { control } = useFormContext();
+  const { control , formState: { errors }, } = useFormContext();
+
+  const errorMessage = getErrorMessageByPropertyName(errors, name);
 
   return (
     <>
@@ -48,6 +51,7 @@ const DFormSelect = ({
           />
         )}
       />
+       <small style={{ color: "red" }}>{errorMessage}</small>
     </>
   );
 };

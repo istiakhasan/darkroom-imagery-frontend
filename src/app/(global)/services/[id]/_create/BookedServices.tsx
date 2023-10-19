@@ -7,7 +7,9 @@ import DFormRate from "@/components/forms/DRate";
 import DDateAndTimePicker from "@/components/ui/DDateAndTimePicker";
 import { usePostReviewMutation } from "@/redux/api/reviewApi";
 import { useBookedServiceMutation } from "@/redux/api/serviceApi";
+import { serviceBookedSchema } from "@/schema/schema";
 import { getUserInfo, isLoggedIn } from "@/services/auth.service";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, message } from "antd";
 import React from "react";
 
@@ -37,7 +39,7 @@ const BookedServices = ({setOpen,serviceId}:{setOpen:any,serviceId:string}) => {
     return <><h6>Please Log in to submit review</h6></>
   }
   return (
-    <DForm submitHandler={handleStudentSubmit}>
+    <DForm submitHandler={handleStudentSubmit} resolver={yupResolver(serviceBookedSchema)}>
   
       <div className="mb-3">
         <DDateAndTimePicker

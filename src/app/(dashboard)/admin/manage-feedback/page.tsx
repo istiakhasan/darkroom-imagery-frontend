@@ -21,24 +21,13 @@ const ManageFeedback = () => {
   const [open, setOpen] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const { data, isLoading } = useGetAllFeedbackQuery(undefined);
-  const [deleteFaqHandler]=useDeleteaqByIdMutation()
+
   const faqDAta = data?.data;
 
   const showModal = () => {
     setOpen(true);
   };
-  const handleDelte =async (id:string) => {
-    message.loading("Deleting.....");
-    try {
-      const res = await deleteFaqHandler({id:id}).unwrap();
-      if (res?.success) {
-        message.success("Deleted  successfully");
-      }
-    } catch (error) {
-      console.log(error);
-    }
 
-  };
   const tableColumn = [
     {
       title: "sl",
@@ -86,11 +75,7 @@ const ManageFeedback = () => {
           },
         ]}
       />
-      <Row justify={"end"}>
-        <Button type="primary" onClick={showModal}>
-          Create
-        </Button>
-      </Row>
+
 
       {/* Table start */}
       <DTable

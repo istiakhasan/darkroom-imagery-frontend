@@ -41,7 +41,7 @@ export const serviceApi = baseApi.injectEndpoints({
         method: "POST",
         data,
       }),
-      invalidatesTags: [tagTypes.bookService],
+      invalidatesTags: [tagTypes.services],
     }),
     getAllBookedServiceByEmail: build.query({
       query: (arg) => ({
@@ -49,7 +49,7 @@ export const serviceApi = baseApi.injectEndpoints({
         method: "GET",
         params: arg,
       }),
-      providesTags: [tagTypes.bookService],
+      providesTags: [tagTypes.services],
     }),
     manageBookingServiceById: build.mutation({
       query: (arg) => ({
@@ -57,24 +57,18 @@ export const serviceApi = baseApi.injectEndpoints({
         method: "PATCH",
         data:arg?.data
       }),
-      invalidatesTags: [tagTypes.bookService],
+      invalidatesTags: [tagTypes.services],
     }),
-    // deleteaqBlogById: build.mutation({
-    //   query: (data: any) => ({
-    //     url: `/blog/${data?.id}`,
-    //     method: "DELETE",
-    //   }),
-    //   invalidatesTags: [tagTypes.blog],
-    // }),
-    // updateBlogById: build.mutation({
-    //     query: (data: any) => ({
-    //       url: `/blog/${data?.id}`,
-    //       method: "PATCH",
-    //       data: data?.data,
-    //       contentType: "multipart/form-data",
-    //     }),
-    //     invalidatesTags: [tagTypes.blog],
-    //   }),
+
+    updateServiceById: build.mutation({
+      query: (data: any) => ({
+        url: `/service/${data?.id}`,
+        method: "PATCH",
+        data: data?.data,
+        contentType: "multipart/form-data",
+      }),
+      invalidatesTags: [tagTypes.services],
+    }),
   }),
 });
 
@@ -85,10 +79,6 @@ export const {
   useGetServiceByIdQuery,
   useBookedServiceMutation,
   useGetAllBookedServiceByEmailQuery,
-  useManageBookingServiceByIdMutation
-  //   useAddBlogMutation,
-  //   useGetAllBlogByAuthorEmailQuery,
-  //   useDeleteaqBlogByIdMutation,
-  //   useUpdateBlogByIdMutation,
-  //   useAllBlogForUsersQuery
+  useManageBookingServiceByIdMutation,
+  useUpdateServiceByIdMutation
 } = serviceApi;

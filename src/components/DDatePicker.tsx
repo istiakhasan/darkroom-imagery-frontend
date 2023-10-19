@@ -33,6 +33,7 @@ const DIDatePicker = ({
         control={control}
         render={({ field }) => (
           <DatePicker 
+          // @ts-ignore
             defaultValue={dayjs(field.value) || Date.now()}
             size={size}
             onChange={handleOnChange}

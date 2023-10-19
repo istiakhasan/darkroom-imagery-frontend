@@ -9,7 +9,10 @@ import { isLoggedIn, removeUserInfo } from "@/services/auth.service";
 import { authKey } from "@/constants/storageKey";
 import { useAppSelector } from "@/redux/hooks";
 import DDrawer from "./DDrawer";
+import { useGetProfileQuery } from "@/redux/api/authApi";
 const MenuBar = () => {
+  const {data,isLoading}=useGetProfileQuery(undefined)
+  const profileInfo=data?.data
   const [open, setOpen] = useState(false);
   const userLoggedIn = isLoggedIn();
   const { cart } = useAppSelector((state) => state?.cart);
@@ -25,7 +28,7 @@ const MenuBar = () => {
       label: <Link href={"/home"}>Home</Link>,
     },
     {
-      key: 1,
+      key: 12,
       label: <Link href={"/services"}>Services</Link>,
     },
     {
@@ -54,10 +57,6 @@ const MenuBar = () => {
     {
       key: "FAQ",
       label: "/faq",
-    },
-    {
-      key: "Feedback",
-      label: "/feedback",
     },
     {
       key: "Blog",
@@ -114,7 +113,7 @@ const MenuBar = () => {
           />
         </Badge>
         <DDrawer setOpen={setOpen} open={open} />
-        {userLoggedIn && (
+        {profileInfo && (
           <Dropdown
             menu={{ items: menuProfileIcon }}
             placement="bottomRight"
@@ -123,7 +122,7 @@ const MenuBar = () => {
               width: "200px",
             }}
           >
-            <Avatar shape="square" icon={<UserOutlined />} />
+            <Avatar shape="square" src={profileInfo?.profileImg} />
           </Dropdown>
         )}
       </div>

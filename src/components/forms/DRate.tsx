@@ -1,3 +1,4 @@
+import { getErrorMessageByPropertyName } from "@/utils/schema-validator";
 import { Input, Rate } from "antd";
 import { useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -16,8 +17,9 @@ const DFormRate = ({
   rows,
   placeholder,
 }: TextAreaProps) => {
-  const { control } = useFormContext();
+  const { control, formState: { errors }, } = useFormContext();
   const [value,setValue]=useState(3)
+  const errorMessage = getErrorMessageByPropertyName(errors, name);
   return (
     <div className={`flex flex-col  w-full`}>
       {label ? label : null}
@@ -29,6 +31,7 @@ const DFormRate = ({
           <Rate {...field} className="w-100"   onChange={(value) => field.onChange(value)} />
         )}
       />
+       <small style={{ color: "red" }}>{errorMessage}</small>
     </div>
   );
 };

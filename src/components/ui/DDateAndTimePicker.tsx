@@ -3,6 +3,7 @@ import { DatePicker, DatePickerProps, Input } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
 import dayjs, { Dayjs } from "dayjs";
 import { RangePickerProps } from "antd/es/date-picker";
+import { getErrorMessageByPropertyName } from "@/utils/schema-validator";
 
 type UMDatePikerProps = {
   onChange?: (valOne: Dayjs | null, valTwo: string) => void;
@@ -18,30 +19,16 @@ const DDateAndTimePicker = ({
   onChange,
   size = "large",
 }: UMDatePikerProps) => {
-  const { control, setValue } = useFormContext();
-//   const handleOnChange: DatePickerProps["onChange"] = (
-//     values,
-//     formatString
-//   ) => {
-//     console.log(values,formatString)
-//     if (Array.isArray(values)) {
-//       const [start, end] = values;
-//       const dateString = `${start?.format("YYYY-MM-DD")} to ${end?.format(
-//         "YYYY-MM-DD"
-//       )}`;
-//       onChange ? onChange(start, dateString) : null;
-//       setValue(name, formatString);
-//     }
-//   };
+  const { control, setValue , formState: { errors }} = useFormContext();
+
 
 const handleOnChange = (
     value: DatePickerProps['value'] | RangePickerProps['value'],
     dateString: [string, string] | string,
   ) => {
-    console.log('Selected Time: ', value);
-    console.log('Formatted Selected Time: ', dateString);
     setValue(name, dateString)
   }
+  const errorMessage = getErrorMessageByPropertyName(errors, name);
 
   return (
     <div>
@@ -61,6 +48,7 @@ const handleOnChange = (
           />
         )}
       />
+       <small style={{ color: "red" }}>{errorMessage}</small>
     </div>
   );
 };

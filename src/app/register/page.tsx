@@ -8,6 +8,8 @@ import DForm from "@/components/forms/DForm";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
 import { useCreateUserMutation } from "@/redux/api/authApi";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerSchema } from "@/schema/schema";
 
 const RegisterPage = () => {
   const [CreateUserHandler]=useCreateUserMutation()
@@ -23,13 +25,17 @@ const RegisterPage = () => {
     message.loading("Creating...");
     try {
       const res = await CreateUserHandler(formData).unwrap();
-      console.log(res,"res");
-      if (res?.success) {
+      if (res) {
         message.success(res?.message);
         route.push('/login')
       }
     } catch (err: any) {
-      console.error(err.message);
+      if(err?.data?.errorMessages){
+        err?.data?.errorMessages?.map((item:any)=>{
+          console.log(item?.message,"item");
+          message.error(item?.message)
+        })
+      }
     }
   };
   return (
@@ -44,16 +50,9 @@ const RegisterPage = () => {
         <Image src={loginImage} width={500} alt="login image" />
       </Col>
       <Col sm={12} md={8} lg={10}>
-      <DForm submitHandler={handleStudentSubmit}>
+      <DForm submitHandler={handleStudentSubmit} resolver={yupResolver(registerSchema)}>
           <div
           className="pe-5"
-          style={
-            {
-              // border:"1px solid black",
-              // padding:"30px",
-              // borderRadius:"4px"
-            }
-          }
         >
           <h1
             style={{

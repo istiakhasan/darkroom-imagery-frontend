@@ -13,6 +13,7 @@ import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDebounced } from "@/redux/hooks";
 import CreateServices from "./_create/CreateServices";
 import { useGetAllServicesQuery } from "@/redux/api/serviceApi";
+import EditServices from "./_create/EditServices";
 const ManageBlog = () => {
   const query: Record<string, any> = {};
   const [open, setOpen] = useState(false);
@@ -218,13 +219,13 @@ const ManageBlog = () => {
       >
         <CreateServices setOpen={setOpen} />
       </DModal>
-      {/* <DModal
+      <DModal
         open={openEditModal}
         handleCancel={() => setOpenEditModal(false)}
         title="Edit Blog"
       >
-        <EditBlog rowDto={rowDto} setOpen={setOpenEditModal} />
-      </DModal> */}
+        <EditServices rowDto={rowDto} setOpen={setOpenEditModal} />
+      </DModal>
     </div>
   );
 };

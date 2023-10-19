@@ -1,3 +1,4 @@
+import { getErrorMessageByPropertyName } from "@/utils/schema-validator";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
 import type { UploadChangeParam } from "antd/es/upload";
@@ -31,7 +32,7 @@ type ImageUploadProps = {
 const DImageUpload = ({ name }: ImageUploadProps) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
-  const { setValue } = useFormContext();
+  const { setValue ,formState: { errors },} = useFormContext();
 
   const handleChange: UploadProps["onChange"] = (
     info: UploadChangeParam<UploadFile>
@@ -50,9 +51,10 @@ const DImageUpload = ({ name }: ImageUploadProps) => {
     }
   };
 
-  // useEffect(()=>{
-  //  setImageUrl('')
-  // },[])
+  useEffect(()=>{
+   setImageUrl('')
+  },[])
+  const errorMessage = getErrorMessageByPropertyName(errors, name);
 
   const uploadButton = (
     <div>
@@ -84,6 +86,7 @@ const DImageUpload = ({ name }: ImageUploadProps) => {
           uploadButton
         )}
       </Upload>
+      <small style={{ color: "red" }}>{errorMessage}</small>
     </>
   );
 };

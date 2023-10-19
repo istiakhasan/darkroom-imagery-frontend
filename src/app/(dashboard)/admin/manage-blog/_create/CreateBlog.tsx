@@ -4,6 +4,8 @@ import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
 import { useAddBlogMutation } from "@/redux/api/blogApi";
+import { blogSchema } from "@/schema/schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, message } from "antd";
 import React from "react";
 
@@ -29,7 +31,7 @@ const CreateBlog = ({setOpen}:{setOpen:any}) => {
     }
   };
   return (
-    <DForm submitHandler={handleStudentSubmit}>
+    <DForm submitHandler={handleStudentSubmit} resolver={yupResolver(blogSchema)}>
       <div className="mb-3">
         <DFormInput
           name="title"

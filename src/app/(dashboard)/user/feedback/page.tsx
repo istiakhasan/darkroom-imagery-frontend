@@ -4,6 +4,8 @@ import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DBreadCrumb from "@/components/ui/DBreadCrumb";
 import { useCreateFeedbackMutation } from "@/redux/api/feedbackApi";
+import { feedbackSchema } from "@/schema/schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Avatar, Button, Col, Input, Row, message } from "antd";
 
 const FeedbackForm = () => {
@@ -31,7 +33,7 @@ const FeedbackForm = () => {
           },
         ]}
       />
-      <DForm submitHandler={formSubmit}>
+      <DForm submitHandler={formSubmit} resolver={yupResolver(feedbackSchema)}>
         <Row justify={"center"} align={"middle"}>
           <Col
             style={{

@@ -22,7 +22,6 @@ const LoginPage = () => {
       }
       storeUserInfo({ accessToken: res?.token });
     } catch (err: any) {
-      console.log(err?.data?.errorMessages,"err")
       if(err?.data?.errorMessages){
         err?.data?.errorMessages?.map((item:any)=>{
           console.log(item?.message,"item");
