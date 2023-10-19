@@ -182,40 +182,40 @@ const MakeAdmin = () => {
         );
       },
     },
-    {
-      title: "action",
-      render: (abc: any) => {
-        return (
-          <>
-            <DeleteOutlined
-              onClick={() => {
-                Modal.confirm({
-                  title: "Confirm ",
-                  content: "Are you sure to delete this user?",
-                  onOk: () => handleDelte(abc?.id),
-                  footer: (_, { OkBtn, CancelBtn }) => (
-                    <>
-                      <CancelBtn />
-                      <OkBtn />
-                    </>
-                  ),
-                });
-              }}
-              style={{ cursor: "pointer" }}
-              className="text-danger me-2"
-            />
+    // {
+    //   title: "action",
+    //   render: (abc: any) => {
+    //     return (
+    //       <>
+    //         <DeleteOutlined
+    //           onClick={() => {
+    //             Modal.confirm({
+    //               title: "Confirm ",
+    //               content: "Are you sure to delete this user?",
+    //               onOk: () => handleDelte(abc?.id),
+    //               footer: (_, { OkBtn, CancelBtn }) => (
+    //                 <>
+    //                   <CancelBtn />
+    //                   <OkBtn />
+    //                 </>
+    //               ),
+    //             });
+    //           }}
+    //           style={{ cursor: "pointer" }}
+    //           className="text-danger me-2"
+    //         />
 
-            <EditOutlined
-              onClick={() => {
-                setOpenEditModal(true);
-                setRowDto(abc);
-              }}
-              style={{ cursor: "pointer" }}
-            />
-          </>
-        );
-      },
-    },
+    //         <EditOutlined
+    //           onClick={() => {
+    //             setOpenEditModal(true);
+    //             setRowDto(abc);
+    //           }}
+    //           style={{ cursor: "pointer" }}
+    //         />
+    //       </>
+    //     );
+    //   },
+    // },
   ];
 
   const onPaginationChange = (page: number, pageSize: number) => {

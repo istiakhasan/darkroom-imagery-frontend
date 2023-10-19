@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDebounced } from "@/redux/hooks";
 import CreateServices from "./_create/CreateServices";
-import { useGetAllServicesQuery } from "@/redux/api/serviceApi";
+import { useDeleteServiceByIdMutation, useGetAllServicesQuery } from "@/redux/api/serviceApi";
 import EditServices from "./_create/EditServices";
 const ManageBlog = () => {
   const query: Record<string, any> = {};
@@ -23,7 +23,7 @@ const ManageBlog = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [deleteBlogHandler] = useDeleteaqBlogByIdMutation();
+  const [deleteBlogHandler] = useDeleteServiceByIdMutation();
   const [searchTerm, setSearchTerm] = useState<string>("");
   query["limit"] = size;
   query["page"] = page;

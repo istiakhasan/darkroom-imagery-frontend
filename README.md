@@ -54,3 +54,18 @@ Alternatively, you can download the ZIP file from the GitHub repository and extr
 We hope you have a fantastic experience using our PC Building Website. If you have any feedback, suggestions, or encounter any problems, please feel free to reach out to our support team at istiak.hasan1996@gmail.com . We are always here to assist you!
 
 Happy PC building!
+
+
+
+
+<!- -->
+## Credential 
+# super admin 
+email:super@gmail.com
+password:123456
+#  Admin 
+email:super@gmail.com
+password:123456
+# User
+email:user@gmail.com
+password:123456

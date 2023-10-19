@@ -69,6 +69,13 @@ export const serviceApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.services],
     }),
+    deleteServiceById: build.mutation({
+      query: (data: any) => ({
+        url: `/service/${data?.id}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: [tagTypes.services],
+    }),
   }),
 });
 
@@ -80,5 +87,6 @@ export const {
   useBookedServiceMutation,
   useGetAllBookedServiceByEmailQuery,
   useManageBookingServiceByIdMutation,
-  useUpdateServiceByIdMutation
+  useUpdateServiceByIdMutation,
+  useDeleteServiceByIdMutation
 } = serviceApi;

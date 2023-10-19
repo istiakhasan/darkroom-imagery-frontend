@@ -29,14 +29,7 @@ export const getMenuLink = (role: string) => {
       icon: <UserOutlined className="me-2" />,
     },
   ];
-  const superAdminItems = [
-    ...commonItems,
-    {
-      key: "Make Admin",
-      label: `/super-admin/make-admin`,
-      icon: <MacCommandFilled className="me-2" />,
-    },
-  ];
+
   const userItems=[
     ...commonItems,
     {
@@ -89,6 +82,15 @@ export const getMenuLink = (role: string) => {
       icon: <HistoryOutlined className="me-2" />,
     },
   ]
+  const superAdminItems = [
+    ...commonItems,
+    ...adminItems,
+    {
+      key: "Make Admin",
+      label: `/super-admin/make-admin`,
+      icon: <MacCommandFilled className="me-2" />,
+    },
+  ];
 
   if (role === USER_ROLE.SUPER_ADMIN) {
     return superAdminItems;

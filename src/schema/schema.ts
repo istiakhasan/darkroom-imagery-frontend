@@ -13,7 +13,7 @@ export const registerSchema = yup.object().shape({
     permanentAddress: yup.string().required("Permanent Address is required"),
     address: yup.string().required("Secondary Address is required"),
     contactNo: yup.string()
-        .test('len', 'Contact number must be exactly 11 digits', val => val && val.toString().length === 10)
+        .test('len', 'Contact number must be exactly 11 digits', val => val && val.toString().length === 11)
         .required("Contact number is required"),
     bioData: yup.string().required().max(250, "Bio data should not exceed 250 characters"),
     about: yup.string().required().max(250, "About should not exceed 250 characters"),
@@ -41,7 +41,7 @@ export const feedbackSchema = yup.object().shape({
     message: yup.string().required("Message is required")
 });
 export const reviewSchema = yup.object().shape({
-    rating: yup.string().required("Rating is required"),
+    rating: yup.number().required("Rating is required"),
     review: yup.string().required("Review is required")
 });
 export const serviceBookedSchema = yup.object().shape({

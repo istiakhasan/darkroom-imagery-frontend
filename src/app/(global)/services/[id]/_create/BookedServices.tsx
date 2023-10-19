@@ -36,7 +36,7 @@ const BookedServices = ({setOpen,serviceId}:{setOpen:any,serviceId:string}) => {
     }
   };
   if(!userisLoggedIn){
-    return <><h6>Please Log in to submit review</h6></>
+    return <><h6>Please Log in to Booked Service</h6></>
   }
   return (
     <DForm submitHandler={handleStudentSubmit} resolver={yupResolver(serviceBookedSchema)}>
