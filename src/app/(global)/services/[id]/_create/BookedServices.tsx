@@ -26,7 +26,6 @@ const BookedServices = ({setOpen,serviceId}:{setOpen:any,serviceId:string}) => {
     message.loading("Creating...");
     try {
       const res = await createBooking(payload).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Booked successfully!");
         setOpen(false)

@@ -3,7 +3,6 @@ import React from "react";
 import  dayjs  from 'dayjs';
 
 const UpcommingServicesCard = ({item}:{item:any}) => {
-  console.log(item,"item");
   return (
     <div style={{marginBottom:"30px"}}>
       <div style={{border:"none",height:"300px"}} className="card text-bg-dark border-none">

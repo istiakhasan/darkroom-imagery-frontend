@@ -4,6 +4,7 @@ import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
 import { useCreateUserMutation, useUpdateUserMutation } from "@/redux/api/authApi";
+import { uploadImageToImagebb } from "@/utils/common";
 import { Button, message } from "antd";
 import React from "react";
 
@@ -11,20 +12,34 @@ const EditUser = ({setOpen,rowDto}:{setOpen:any,rowDto:any}) => {
   const [updateUserHandle]=useUpdateUserMutation()
   const handleStudentSubmit = async (values: any) => {
     const obj = { ...values };
+    // const file = obj["file"];
+    // delete obj["file"];
+    // const data = JSON.stringify(obj);
+    // const formData = new FormData();
+    // formData.append("file", file as Blob);
+    // formData.append("data", data);
     const file = obj["file"];
-    delete obj["file"];
-    const data = JSON.stringify(obj);
+    delete obj["file"]
     const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
-    message.loading("Creating...");
+    formData.append('image',file)
+    if (values?.file instanceof File) {
+      let finalImageUrl
+      try {
+         finalImageUrl=await uploadImageToImagebb(formData) 
+         console.log(finalImageUrl,"final image")
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        return;
+      }
+      obj["profileImg"] = finalImageUrl;
+    }
+    message.loading("Updating...");
     let payload={
-        data:formData,
+        data:obj,
         id:rowDto?.id
     }
     try {
       const res = await updateUserHandle(payload).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("User Updated  successfully!");
         setOpen(false)

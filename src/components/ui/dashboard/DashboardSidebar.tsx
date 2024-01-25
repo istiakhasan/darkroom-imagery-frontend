@@ -9,7 +9,6 @@ const DashboardSidebar = () => {
   const { Sider } = Layout;
   const [collapsed, setCollapsed] = useState(false);
   type MenuItem = Required<MenuProps>["items"][number];
-  const role:string="user"
   const items: MenuItem[] = [
     {
       key: "home",

@@ -83,7 +83,6 @@ export const getMenuLink = (role: string) => {
     },
   ]
   const superAdminItems = [
-    ...commonItems,
     ...adminItems,
     {
       key: "Make Admin",

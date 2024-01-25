@@ -16,6 +16,7 @@ import { useAddServicesMutation } from "@/redux/api/serviceApi";
 import { getUserInfo } from "@/services/auth.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createServiceSchema } from "@/schema/schema";
+import { uploadImageToImagebb } from "@/utils/common";
 const CreateService = ({setOpen}:{setOpen:any}) => {
   const {data,isLoading}=useGetAllCategoriesLabelQuery(undefined)
   const categoryData=data?.data
@@ -26,18 +27,27 @@ const CreateService = ({setOpen}:{setOpen:any}) => {
   const handleStudentSubmit = async (values: any) => {
     const obj = { ...values };
     const file = obj["file"];
-    delete obj["file"];
     obj["availability"]=`${dayjs(obj?.dateRange[0]).format('DD MMMM YYYY hh:mm A')}-${dayjs(obj?.dateRange[1]).format('DD MMMM YYYY hh:mm A')}`
     obj["userId"]=userInfo.userId
     obj["price"]=Number(obj.price)
     delete obj["dateRange"];
-    const data = JSON.stringify(obj);
     const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
+    formData.append("image", file as Blob);
+    if (obj?.file) {
+      let finalImageUrl
+      try {
+         finalImageUrl=await uploadImageToImagebb(formData) 
+         console.log(finalImageUrl,"final image")
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        return;
+      }
+      obj["service_img"] = finalImageUrl;
+      delete obj["file"]
+    }
     message.loading("Creating...");
     try {
-      const res = await addServicesWithFormData(formData).unwrap();
+      const res = await addServicesWithFormData(obj).unwrap();
       if (res?.success) {
         message.success("Services created successfully!");
         setOpen(false)

@@ -1,12 +1,11 @@
 "use client";
-import { Button, Col, Input, Row, message } from "antd";
+import { Button, Col, Row, message } from "antd";
 import loginImage from "../../assets/login.svg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import DForm from "@/components/forms/DForm";
 import DFormInput from "@/components/forms/DFormInput";
 import { useLoginUserMutation } from "@/redux/api/authApi";
-import axios from "axios";
 import { storeUserInfo } from "@/services/auth.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/schema/schema";
@@ -24,7 +23,6 @@ const LoginPage = () => {
     } catch (err: any) {
       if(err?.data?.errorMessages){
         err?.data?.errorMessages?.map((item:any)=>{
-          console.log(item?.message,"item");
           message.error(item?.message)
         })
       }

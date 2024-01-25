@@ -20,7 +20,6 @@ const CreateReview = ({setOpen,serviceId}:{setOpen:any,serviceId:string}) => {
     message.loading("Creating...");
     try {
       const res = await createReview(payload).unwrap();
-      console.log(res,"res");
       if (res?.success) {
         message.success("Review post successfully!");
         setOpen(false)

@@ -23,7 +23,6 @@ export const authApi = baseApi.injectEndpoints({
         url: `/auth/signup`,
         method: "POST",
         data: data,
-        contentType: "multipart/form-data",
       }),
       invalidatesTags: [tagTypes.user],
     }),
@@ -31,8 +30,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: `/auth/all-users/${data?.id}`,
         method: "PATCH",
-        data: data?.data,
-        contentType: "multipart/form-data",
+        data: data?.data
       }),
       invalidatesTags: [tagTypes.user],
     }),
@@ -56,8 +54,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/profile/update",
         method: "PATCH",
-        data: data?.data,
-        contentType: "multipart/form-data",
+        data: data?.data
       }),
       invalidatesTags: [tagTypes.user],
     }),

@@ -6,14 +6,16 @@ import EditProfile from "./_edit/EditProfile";
 import { useGetProfileQuery } from "@/redux/api/authApi";
 import Loading from "@/app/loading";
 const Profile = () => {
-  const {data,isLoading}=useGetProfileQuery(undefined)
+  const {data,isLoading}=useGetProfileQuery(undefined,{
+    refetchOnMountOrArgChange:true,
+    refetchOnReconnect:true
+  })
   const profileInfo=data?.data
   const [openProfileEditModal,setOpenProfileEditModal]=useState(false)
 
   if(isLoading){
     return <Loading />
   }
-  console.log(data,"data");
   return (
     <Row gutter={30}>
       <Col sm={24} lg={6}>

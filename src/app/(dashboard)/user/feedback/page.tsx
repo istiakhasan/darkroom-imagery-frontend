@@ -14,7 +14,6 @@ const FeedbackForm = () => {
     message.loading("Creating...");
     try {
       const res = await createFeedback(values).unwrap();
-        console.log(res, "res");
         if (res?.success) {
           message.success(res.message);
         }

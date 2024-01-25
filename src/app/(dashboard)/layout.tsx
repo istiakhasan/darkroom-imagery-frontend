@@ -1,7 +1,5 @@
 "use client";
-
 import { Layout } from "antd";
-import DashboardSidebar from "@/components/ui/dashboard/DashboardSidebar";
 import DashboardContent from "@/components/ui/dashboard/DashboardContent";
 import DashboardCustomSideBar from "@/components/ui/dashboard/DashboardCustomSideBar";
 import "./style.css";
@@ -9,12 +7,11 @@ import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { isLoggedIn } from "@/services/auth.service";
 import { redirect, useRouter } from "next/navigation";
-import withAuth from "@/components/withAuth";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
   const [collapes, setCollapes] = useState(false);
   const userLoggedIn = isLoggedIn();
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   useEffect(() => {
     if (window.innerWidth < 700) {
@@ -43,7 +40,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       redirect("/login");
     }
     setIsLoading(true);
-  }, [router, isLoading]);
+  }, [router, isLoading,userLoggedIn]);
   if (!isLoading) {
     return <Loading />
   }

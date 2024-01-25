@@ -3,10 +3,8 @@ import DForm from "@/components/forms/DForm";
 import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
-import {
-  useAddBlogMutation,
-  useUpdateBlogByIdMutation,
-} from "@/redux/api/blogApi";
+import { useUpdateBlogByIdMutation} from "@/redux/api/blogApi";
+import { uploadImageToImagebb } from "@/utils/common";
 import { Button, message } from "antd";
 import React from "react";
 
@@ -15,14 +13,22 @@ const EditBlog = ({ setOpen, rowDto }: { setOpen: any; rowDto: any }) => {
   const handleStudentSubmit = async (values: any) => {
     const obj = { ...values };
     const file = obj["file"];
-    delete obj["file"];
-    const data = JSON.stringify(obj);
+    delete obj["file"]
     const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
+    formData.append('image',file)
+    if (values?.file instanceof File) {
+      let finalImageUrl
+      try {
+         finalImageUrl=await uploadImageToImagebb(formData) 
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        return;
+      }
+      obj["image"] = finalImageUrl;
+    }
     const payload = {
       id: rowDto.id,
-      data: formData,
+      data: obj,
     };
     try {
       const res = await updateBlogWithFormData(payload).unwrap();

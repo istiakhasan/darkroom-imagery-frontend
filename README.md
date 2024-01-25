@@ -64,7 +64,7 @@ Happy PC building!
 email:super@gmail.com
 password:123456
 #  Admin 
-email:super@gmail.com
+email:admin@gmail.com
 password:123456
 # User
 email:user@gmail.com

@@ -4,6 +4,7 @@ import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
 import { useCreateUserMutation } from "@/redux/api/authApi";
+import { uploadImageToImagebb } from "@/utils/common";
 import { Button, message } from "antd";
 import React from "react";
 
@@ -12,15 +13,23 @@ const CreateUser = ({setOpen}:{setOpen:any}) => {
   const handleStudentSubmit = async (values: any) => {
     const obj = { ...values };
     const file = obj["file"];
-    delete obj["file"];
-    const data = JSON.stringify(obj);
+    delete obj["file"]
     const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
+    formData.append('image',file)
+    if (values?.file instanceof File) {
+      let finalImageUrl
+      try {
+         finalImageUrl=await uploadImageToImagebb(formData) 
+         console.log(finalImageUrl,"final image")
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        return;
+      }
+      obj["profileImg"] = finalImageUrl;
+    }
     message.loading("Creating...");
     try {
-      const res = await CreateUserHandler(formData).unwrap();
-      console.log(res,"res");
+      const res = await CreateUserHandler(obj).unwrap();
       if (res?.success) {
         message.success("User created successfully!");
         setOpen(false)

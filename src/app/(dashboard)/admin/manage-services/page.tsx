@@ -4,10 +4,6 @@ import DModal from "@/components/ui/DModal";
 import DTable from "@/components/ui/DTable";
 import { Button, Image, Input, Modal, Row, Tooltip, message } from "antd";
 import { useState } from "react";
-import {
-  useDeleteaqBlogByIdMutation,
-  useGetAllBlogByAuthorEmailQuery,
-} from "@/redux/api/blogApi";
 import dayjs from "dayjs";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useDebounced } from "@/redux/hooks";
@@ -20,15 +16,11 @@ const ManageBlog = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [rowDto, setRowDto] = useState({});
-  const [sortBy, setSortBy] = useState<string>("");
-  const [sortOrder, setSortOrder] = useState<string>("");
   const [openEditModal, setOpenEditModal] = useState(false);
   const [deleteBlogHandler] = useDeleteServiceByIdMutation();
   const [searchTerm, setSearchTerm] = useState<string>("");
   query["limit"] = size;
   query["page"] = page;
-  query["sortBy"] = sortBy;
-  query["sortOrder"] = sortOrder;
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
     delay: 600,

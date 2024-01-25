@@ -8,8 +8,8 @@ const EventByCategoryCard = ({service}:{service:any}) => {
   const router=useRouter()
   return (
     <div className="card-deck ">
-      <div className="card mb-4 shadow_hover">
-        <div className="view overlay overflow-hidden">
+      <div className="card mb-4 m-0 p-0 shadow_hover">
+        <div className="view overlay m-0 p-0 overflow-hidden">
           <img 
             height={180}
             style={{objectFit:"cover"}}

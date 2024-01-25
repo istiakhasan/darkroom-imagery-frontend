@@ -1,4 +1,5 @@
 "use client";
+import Loading from "@/app/loading";
 import AvailAbleServiceCard from "@/components/ui/home/AvailAbleServiceCard";
 import { useGetAllCategoriesLabelQuery } from "@/redux/api/categoryApi";
 import {
@@ -32,7 +33,6 @@ const Services = () => {
   query["maxPrice"] = maxValue;
   query["location"] = location;
   query["categoryId"] = categoryId;
-  console.log(categoryId, "category id");
   query["isAvailable"] = "available";
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
@@ -61,12 +61,15 @@ const Services = () => {
    
     setMaxValue(newValue);
   };
-  console.log(categoryLabel, "dsafasfd");
   const handleCurrentChange = (pageNumber:number,numSize:number) => {
     
     setPage(pageNumber);
     setSize(numSize)
   };
+
+  if(isLoading){
+    return <Loading />
+  }
   return (
     <div>
       <h1 className="my-2 text-center underline">
@@ -153,7 +156,7 @@ const Services = () => {
             className="text-end"
             onChange={handleCurrentChange}
             current={page}
-            total={100}
+            total={data?.data?.meta?.total}
             pageSizeOptions={[2,5,10,20,50]}
           />
         </Col>

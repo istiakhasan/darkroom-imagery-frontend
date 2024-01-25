@@ -1,0 +1,16 @@
+.home_header{
+    background: url(../../assets/banner.jpg);
+    max-height: 550px;
+    min-height:550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.photography{
+    font-size: 7rem;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 100;
+    font-style: italic;  
+    white-space-collapse: break-spaces;
+}

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { Fragment } from "react";
 import { Col, Divider, Row } from "antd";
 import EventByCategoryCard from "./EventByCategoryCard";
 import { useGetAllCategoriesLabelQuery } from "@/redux/api/categoryApi";
@@ -9,7 +9,6 @@ const EventByCategorySection = () => {
     category: "category",
   });
   const categoryData = data?.data;
-  console.log(categoryData, "category data");
   if (isLoading) {
     return <Loading />;
   }
@@ -20,8 +19,8 @@ const EventByCategorySection = () => {
       </h1>
 
       <Divider />
-      {categoryData?.map((item: any, i: React.Key | null | undefined) => (
-        <>
+      {(categoryData?.length>6?categoryData?.slice(0,3):categoryData)?.map((item: any, i: React.Key | null | undefined) => (
+        <Fragment key={i}>
           <h5>{item?.name}</h5>
           <Row gutter={30}>
             {item?.Services?.map(
@@ -33,7 +32,7 @@ const EventByCategorySection = () => {
             )}
           </Row>
           <Divider />
-        </>
+        </Fragment>
       ))}
     </div>
   );

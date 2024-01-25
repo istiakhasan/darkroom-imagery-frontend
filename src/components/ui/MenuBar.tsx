@@ -10,14 +10,23 @@ import { authKey } from "@/constants/storageKey";
 import { useAppSelector } from "@/redux/hooks";
 import DDrawer from "./DDrawer";
 import { useGetProfileQuery } from "@/redux/api/authApi";
+import Loading from "@/app/loading";
 const MenuBar = () => {
-  const {data,isLoading}=useGetProfileQuery(undefined)
+  const {data,isLoading}=useGetProfileQuery(undefined,{
+    refetchOnMountOrArgChange:true,
+    refetchOnReconnect:true,
+    refetchOnFocus:true
+  })
   const profileInfo=data?.data
   const [open, setOpen] = useState(false);
   const userLoggedIn = isLoggedIn();
   const { cart } = useAppSelector((state) => state?.cart);
   const router = useRouter();
   const location = usePathname();
+
+  if(isLoading){
+    return <Loading />
+  }
   const logOut = () => {
     removeUserInfo(authKey);
     router.push("/home");
@@ -45,7 +54,7 @@ const MenuBar = () => {
     },
     true ? { key: 5, label: <Link href={"/dashboard"}>Dashboard</Link> } : null,
   ];
-  const itemsForLg: { key: string; label: string }[] = [
+  let itemsForLg = [
     {
       key: "Home",
       label: "/home",
@@ -62,9 +71,25 @@ const MenuBar = () => {
       key: "Blog",
       label: "/blog",
     },
-    ...(userLoggedIn ? [{ key: "Dashboard", label: "/profile" }] : []),
-    ...(!userLoggedIn ? [{ key: "Login", label: "/login" }] : []),
   ];
+  
+  if (userLoggedIn) {
+    itemsForLg = [
+      ...itemsForLg,
+      {
+        key: "Dashboard",
+        label: "/profile",
+      },
+    ];
+  } else {
+    itemsForLg = [
+      ...itemsForLg,
+      {
+        key: "Login",
+        label: "/login",
+      },
+    ];
+  }
 
   const menuProfileIcon: MenuProps["items"] = [
     {
@@ -95,15 +120,16 @@ const MenuBar = () => {
         Dark<span>Room</span>
       </div>
       <div className="menu_item d-none d-md-block">
-        {itemsForLg?.map((item) => (
-          <>
-            <Link
+        {itemsForLg?.map((item,i) => (
+        
+            <Link 
+             key={i}
               className={location == item.label ? "active" : ""}
               href={item.label}
             >
               {item.key}
             </Link>
-          </>
+      
         ))}
         <Badge className="me-4" count={cart?.length}>
           <Avatar

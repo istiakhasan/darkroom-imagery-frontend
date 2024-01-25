@@ -38,7 +38,6 @@ const MakeAdmin = () => {
   if (!!debouncedTerm) {
     query["searchTerm"] = debouncedTerm;
   }
-  console.log(query, "query");
   const { data, isLoading } = useGetAllUsersQuery({ ...query });
   const usersData = data?.data?.data;
   // make admin
@@ -54,7 +53,6 @@ const MakeAdmin = () => {
     };
     try {
       const res = await updateUserHandle(payload).unwrap();
-      console.log(res, "res");
       if (res?.success) {
         message.success("Make Admin  successfully!");
         setOpen(false);
@@ -74,7 +72,6 @@ const MakeAdmin = () => {
     };
     try {
       const res = await updateUserHandle(payload).unwrap();
-      console.log(res, "res");
       if (res?.success) {
         message.success("Remove form Admin  successfully!");
         setOpen(false);
@@ -224,7 +221,6 @@ const MakeAdmin = () => {
   };
   const onTableChange = (pagination: any, filter: any, sorter: any) => {
     const { order, field } = sorter;
-    // console.log(order, field);
     setSortBy(field as string);
     setSortOrder(order === "ascend" ? "asc" : "desc");
   };

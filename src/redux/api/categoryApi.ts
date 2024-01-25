@@ -7,8 +7,7 @@ export const categoryApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: "/categories/create-category",
         method: "POST",
-        data,
-        contentType: "multipart/form-data",
+        data
       }),
       invalidatesTags: [tagTypes.categories],
     }),
@@ -27,30 +26,7 @@ export const categoryApi = baseApi.injectEndpoints({
         params:arg
       }),
       providesTags: [tagTypes.categories],
-    }),
-    // allBlogForUsers: build.query({
-    //   query: () => ({
-    //     url: "/blog/get-all",
-    //     method: "GET",
-    //   }),
-    //   providesTags: [tagTypes.blog],
-    // }),
-    // deleteaqBlogById: build.mutation({
-    //   query: (data: any) => ({
-    //     url: `/blog/${data?.id}`,
-    //     method: "DELETE",
-    //   }),
-    //   invalidatesTags: [tagTypes.blog],
-    // }),
-    // updateBlogById: build.mutation({
-    //     query: (data: any) => ({
-    //       url: `/blog/${data?.id}`,
-    //       method: "PATCH",
-    //       data: data?.data,
-    //       contentType: "multipart/form-data",
-    //     }),
-    //     invalidatesTags: [tagTypes.blog],
-    //   }),
+    })
   }),
 });
 
@@ -58,9 +34,4 @@ export const {
     useGetAllCategoriesByAuthorEmailQuery,
     useCreateCategoriesMutation,
     useGetAllCategoriesLabelQuery
-//   useAddBlogMutation,
-//   useGetAllBlogByAuthorEmailQuery,
-//   useDeleteaqBlogByIdMutation,
-//   useUpdateBlogByIdMutation,
-//   useAllBlogForUsersQuery
 } = categoryApi;

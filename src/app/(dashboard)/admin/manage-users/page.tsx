@@ -32,7 +32,11 @@ const ManageServices = () => {
   if (!!debouncedTerm) {
     query["searchTerm"] = debouncedTerm;
   }
-  const { data, isLoading } = useGetAllUsersQuery({...query});
+  const { data, isLoading } = useGetAllUsersQuery({...query},{
+    refetchOnFocus:true,
+    refetchOnMountOrArgChange:true,
+    refetchOnReconnect:true
+  });
   const usersData = data?.data?.data;
 //   delete user
 const handleDelte = async (id: string) => {

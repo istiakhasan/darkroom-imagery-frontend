@@ -1,21 +1,40 @@
+"use client"
 import { Col, Divider, Row } from "antd";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import { Pagination } from "swiper/modules";
 import ReviewCard from "./ReviewCard";
 import { useGetAllReviewQuery } from "@/redux/api/reviewApi";
 import Loading from "@/app/loading";
-import { Key } from "react";
+import { Key, useEffect, useState } from "react";
 
 const ReviewSection = () => {
   const {data,isLoading}=useGetAllReviewQuery(undefined)
+ 
+  const reviewData=data?.data?.length>6?data?.data?.slice(0,6):data?.data 
+  const [collapes, setCollapes] = useState(false);
+  useEffect(() => {
+    if (window.innerWidth < 700) {
+      setCollapes(true);
+    }
+    window.addEventListener("resize", () => {
+      if (window.innerWidth < 700) {
+        setCollapes(true);
+      } else {
+        setCollapes(false);
+      }
+    });
+    window.addEventListener("load", () => {
+      if (window.innerWidth < 700) {
+        setCollapes(true);
+      } else {
+        setCollapes(false);
+      }
+    });
+  }, []);
   if(isLoading){
     return <Loading />
   }
-  const reviewData=data?.data?.length>6?data?.data?.slice(0,6):data?.data
-  console.log(reviewData,"rewview data"); 
-
   return (
     <div>
       <h1 className="my-5 text-center underline">
@@ -24,7 +43,7 @@ const ReviewSection = () => {
 
       <Divider />
       <Swiper
-        slidesPerView={3}
+        slidesPerView={collapes?1:3}
         spaceBetween={30}
         pagination={{
           clickable: true,

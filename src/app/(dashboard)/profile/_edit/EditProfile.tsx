@@ -4,6 +4,7 @@ import DFormInput from "@/components/forms/DFormInput";
 import DFormTextArea from "@/components/forms/DFormTextArea";
 import DImageUpload from "@/components/ui/DImageUpload";
 import { useUpdateProfileMutation } from "@/redux/api/authApi";
+import { uploadImageToImagebb } from "@/utils/common";
 import { Button, Col, Row, message } from "antd";
 import React from "react";
 
@@ -12,17 +13,26 @@ const EditProfile = ({ profileInfo,setOpenProfileEditModal }: { profileInfo: any
     const submitForm = async(values: any) => {
     const obj = { ...values };
     const file = obj["file"];
-    delete obj["file"];
-    const data = JSON.stringify(obj);
+    delete obj["file"]
     const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
+    formData.append('image',file)
+    if (values?.file instanceof File) {
+      let finalImageUrl
+      try {
+         finalImageUrl=await uploadImageToImagebb(formData) 
+         console.log(finalImageUrl,"final image")
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        return;
+      }
+      obj["profileImg"] = finalImageUrl;
+    }
+
     const payload = {
-      data: formData,
+      data: obj,
     };
     try {
       const res =await  updateProfile(payload).unwrap();
-      console.log(res, "res");
       if (res?.success) {
         message.success("Blog Updated successfully!");
         setOpenProfileEditModal(false);
@@ -95,7 +105,7 @@ const EditProfile = ({ profileInfo,setOpenProfileEditModal }: { profileInfo: any
 
       <div className="mb-3 text-end">
         <Button htmlType="submit" type="primary">
-          Create
+          Update
         </Button>
       </div>
     </DForm>

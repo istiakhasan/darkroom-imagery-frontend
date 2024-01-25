@@ -21,7 +21,6 @@ const CreateAdminUser = ({ setOpen }: { setOpen: any }) => {
     message.loading("Creating...");
     try {
       const res = await CreateUserHandler(formData).unwrap();
-      console.log(res, "res");
       if (res?.success) {
         message.success("User created successfully!");
         setOpen(false);

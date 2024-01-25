@@ -46,7 +46,6 @@ export const cartSlice = createSlice({
       const isExist = state.cart.find(
         (item) => item?.id === action?.payload?.id
       );
-      console.log(isExist, "is exist");
       if (isExist) {
         message.error("Item already exist");
       } else {

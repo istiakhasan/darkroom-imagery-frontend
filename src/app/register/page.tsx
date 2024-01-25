@@ -10,6 +10,7 @@ import DImageUpload from "@/components/ui/DImageUpload";
 import { useCreateUserMutation } from "@/redux/api/authApi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/schema/schema";
+import { uploadImageToImagebb } from "@/utils/common";
 
 const RegisterPage = () => {
   const [CreateUserHandler]=useCreateUserMutation()
@@ -17,14 +18,24 @@ const RegisterPage = () => {
   const handleStudentSubmit = async (values: any) => {
     const obj = { ...values };
     const file = obj["file"];
-    delete obj["file"];
-    const data = JSON.stringify(obj);
     const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
+    formData.append("image", file as Blob);
+    if (obj?.file) {
+      let finalImageUrl
+      try {
+         finalImageUrl=await uploadImageToImagebb(formData) 
+         console.log(finalImageUrl,"final image")
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        return;
+      }
+      obj["profileImg"] = finalImageUrl;
+      delete obj["file"]
+    }
+
     message.loading("Creating...");
     try {
-      const res = await CreateUserHandler(formData).unwrap();
+      const res = await CreateUserHandler(obj).unwrap();
       if (res) {
         message.success(res?.message);
         route.push('/login')
@@ -32,7 +43,6 @@ const RegisterPage = () => {
     } catch (err: any) {
       if(err?.data?.errorMessages){
         err?.data?.errorMessages?.map((item:any)=>{
-          console.log(item?.message,"item");
           message.error(item?.message)
         })
       }

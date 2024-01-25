@@ -14,6 +14,7 @@ import DateRangePicker from "@/components/ui/RangePicker";
 import { useGetAllCategoriesLabelQuery } from "@/redux/api/categoryApi";
 import { useUpdateServiceByIdMutation } from "@/redux/api/serviceApi";
 import { getUserInfo } from "@/services/auth.service";
+import { uploadImageToImagebb } from "@/utils/common";
 const EditServices = ({ setOpen, rowDto }: { setOpen: any; rowDto: any }) => {
   const { data, isLoading } = useGetAllCategoriesLabelQuery(undefined);
   const categoryData = data?.data;
@@ -22,9 +23,7 @@ const EditServices = ({ setOpen, rowDto }: { setOpen: any; rowDto: any }) => {
   const userInfo: any = getUserInfo();
   const handleStudentSubmit = async (values: any) => {
     const obj = { ...values };
-    const file = obj["file"];
-    delete obj["file"];
-
+    
     if (obj?.dateRange?.length > 0) {
       obj["availability"] = `${dayjs(obj.dateRange[0]).format(
         "DD MMMM YYYY hh:mm A"
@@ -34,18 +33,29 @@ const EditServices = ({ setOpen, rowDto }: { setOpen: any; rowDto: any }) => {
     obj["userId"] = userInfo.userId;
     obj["price"] = Number(obj.price);
     delete obj["dateRange"];
-    const data = JSON.stringify(obj);
-    const formData = new FormData();
-    formData.append("file", file as Blob);
-    formData.append("data", data);
-    message.loading("Creating...");
+    if (obj?.file) {
+      const file = obj["file"];
+      const formData = new FormData();
+      formData.append('image',file)
+      let finalImageUrl
+      try {
+         finalImageUrl=await uploadImageToImagebb(formData) 
+         console.log(finalImageUrl,"final image")
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        return;
+      }
+      obj["service_img"] = finalImageUrl;
+      delete obj["file"]
+    }
+    message.loading("Updating...");
     try {
       const res = await updateService({
-        data: formData,
+        data: obj,
         id: rowDto?.id,
       }).unwrap();
       if (res?.success) {
-        message.success("Services created successfully!");
+        message.success("Services Updated successfully!");
         setOpen(false);
       }
     } catch (err: any) {
@@ -57,6 +67,7 @@ const EditServices = ({ setOpen, rowDto }: { setOpen: any; rowDto: any }) => {
     serviceName: rowDto?.serviceName,
     price: rowDto?.price,
   };
+  console.log(defaultValues,"default values")
   return (
     <DForm submitHandler={handleStudentSubmit} defaultValues={defaultValues}>
       <div className="mb-3">

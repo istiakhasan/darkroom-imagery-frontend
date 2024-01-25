@@ -56,7 +56,6 @@ const BookingHistory = () => {
     }
   );
   const faqDAta = data?.data?.data;
-  console.log(faqDAta, "faq data");
 
   const showModal = () => {
     setOpen(true);

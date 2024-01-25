@@ -4,9 +4,7 @@ import type { AxiosRequestConfig, AxiosError } from "axios";
 import { instance as axiosInstance } from "./axiosInstance";
 
 export const axiosBaseQuery =
-  (
-    { baseUrl }: { baseUrl: string } = { baseUrl: "" }
-  ): BaseQueryFn<
+  ({ baseUrl }: { baseUrl: string } = { baseUrl: "" }): BaseQueryFn<
     {
       url: string;
       method: AxiosRequestConfig["method"];
